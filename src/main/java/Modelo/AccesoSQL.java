@@ -1,6 +1,7 @@
 package Modelo;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -122,6 +123,43 @@ public class AccesoSQL {
 		return false;		//Devuelve si el resusltado de la operaciónse no se ha realziado correctamente
 
 	}
+	public boolean modificarReserva(Reserva reserva)
+	{
+
+		if(reserva!=null)
+		{
+			boolean bool=true;
+
+			bool=ejecutarSentencia("UPDATE reservas SET "+Reserva.CAMPOS[1]+"="+reserva.getUsuario().getIdUsuario()+" , "
+					+Reserva.CAMPOS[2]+"="+reserva.getEspacio().getidEspacio()+" , "
+					+Reserva.CAMPOS[3]+"= '"+reserva.getHoraInicio()+"' , "
+					+Reserva.CAMPOS[4]+"= '"+reserva.getHoraFinal()+"' , "
+					+Reserva.CAMPOS[5]+"= '"+reserva.getFecha()+"' , "
+					+Reserva.CAMPOS[6]+"= 'MODIFICADA' , "
+					+Reserva.CAMPOS[7]+"= '"+reserva.getDescripcion()+"'"
+					+" WHERE "+Reserva.CAMPOS[0]+"="+reserva.getId()); //Se pone el formato correcto para el tipo null
+			return bool; 	//Devuelve si el resusltado de la operaciónse se ha realziado correctamente
+		}
+		return false;		//Devuelve si el resusltado de la operaciónse no se ha realziado correctamente
+
+	}public boolean cancelarReserva(Reserva reserva)
+	{
+
+		if(reserva!=null)
+		{
+			boolean bool=true;
+
+			bool=ejecutarSentencia("UPDATE reservas SET "
+
+
+					+Reserva.CAMPOS[6]+"= 'CANCELADA' , "
+					+" WHERE "+Reserva.CAMPOS[0]+"="+reserva.getId()); //Se pone el formato correcto para el tipo null
+			return bool; 	//Devuelve si el resusltado de la operaciónse se ha realziado correctamente
+		}
+		return false;		//Devuelve si el resusltado de la operaciónse no se ha realziado correctamente
+
+	}
+
 
 
 	public ArrayList<Espacio> leerEspacios(int idInstalacion) {
@@ -129,7 +167,7 @@ public class AccesoSQL {
 		{
 			conectar();
 			//Añade a la lista todos los registros de la tabla mangas
-            ArrayList<Espacio> listaEspacios = new ArrayList<Espacio>(consultarListaEspacios("SELECT * FROM espacios where idInstalación="+idInstalacion));
+            ArrayList<Espacio> listaEspacios = new ArrayList<Espacio>(consultarListaEspacios("SELECT * FROM espacios where idInstalacion="+idInstalacion));
 			desconectar();
 			return listaEspacios;
 		}catch(NullPointerException e)
@@ -138,7 +176,7 @@ public class AccesoSQL {
 			return null;
 		}
 	}
-	public ArrayList<Espacio> leerEspaciosLibres(int idInstalacion, Date fecha, Time hora1, Time hora2) {
+	public ArrayList<Espacio> leerEspaciosLibres(int idInstalacion, String fecha, Time hora1, Time hora2) {
 		try
 		{
 			conectar();
@@ -306,7 +344,7 @@ public class AccesoSQL {
 			while(result.next()) {
 				reservas.add(new Reserva(result.getInt(1),consultarEspacio(result.getInt(2)),
 						consultarUsuario(result.getInt(3)),result.getTime(4),
-										result.getTime(5),result.getDate(6),
+										result.getTime(5), LocalDate.parse(result.getString(6)),
 										result.getString(7),result.getString(8)));
 			}
 			st.close();

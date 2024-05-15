@@ -1,7 +1,7 @@
 module com.example.reservasdeespaciostfg {
     requires javafx.controls;
     requires javafx.fxml;
-
+    exports Controlador;
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
 
@@ -10,4 +10,6 @@ module com.example.reservasdeespaciostfg {
 
     opens com.example.reservasdeespaciostfg to javafx.fxml;
     exports com.example.reservasdeespaciostfg;
+    exports Vista;
+    opens Vista to javafx.fxml;
 }

@@ -1,11 +1,14 @@
 package Modelo;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 
 public class Reserva {
 
     private int id;
     public static String CAMPOS_SQL="`reservas` ( `idUsuario`, `idEspacio`, `horaInicio`, `horaFinal`, `fechaReserva`, `estado`, `descripcion`)";
+    public static String[] CAMPOS= {"idReserva","idUsuario", "idEspacio", "horaInicio", "horaFinal", "fechaReserva", "estado", "descripcion"};
+
     private Espacio espacio;
 
     private Usuario usuario;
@@ -14,12 +17,12 @@ public class Reserva {
 
     private Time horaFinal;
 
-    private Date fecha;
+    private LocalDate fecha;
     private String descripcion;
 
     private String estado;
 
-    public Reserva(int id, Espacio espacio, Usuario usuario, Time horaInicio, Time horaFinal, Date fecha, String descripcion,String estado) {
+    public Reserva(int id, Espacio espacio, Usuario usuario, Time horaInicio, Time horaFinal, LocalDate fecha, String descripcion,String estado) {
         this.id = id;
         this.espacio = espacio;
         this.usuario = usuario;
@@ -42,6 +45,11 @@ public class Reserva {
                 ",'" + estado + '\'' +
                 ')';
     }
+public boolean isUpadatable(){
+        return !LocalDate.now().isAfter(fecha.minusWeeks(1)) ;
+}
+
+
 
     public int getId() {
         return id;
@@ -83,11 +91,11 @@ public class Reserva {
         this.horaFinal = horaFinal;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
@@ -99,11 +107,11 @@ public class Reserva {
         this.descripcion = descripcion;
     }
 
-    public String getestado() {
+    public String getEstado() {
         return estado;
     }
 
-    public void setestado(String estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 }

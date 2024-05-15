@@ -1,0 +1,42 @@
+.root {
+    -fx-background-color: #FFFFFF; /* Blanco */
+}
+
+/* Botón principal */
+.botón-principal {
+    -fx-background-color: #1E90FF; /* Azul Oscuro */
+    -fx-text-fill: white; /* Texto blanco */
+}
+
+/* Botón secundario */
+.botón-secundario {
+    -fx-background-color: #4682B4; /* Azul Medio */
+    -fx-text-fill: white; /* Texto blanco */
+}
+
+/* Botón de resaltado */
+.botón-resaltado {
+    -fx-background-color: #87CEEB; /* Azul Claro */
+    -fx-text-fill: #1E90FF; /* Azul Oscuro */
+}
+
+/* Texto de resaltado */
+.texto-resaltado {
+    -fx-text-fill: #1E90FF; /* Azul Oscuro */
+}
+
+/* Campo de texto */
+.campo-texto {
+    -fx-background-color: #87CEFA; /* Azul Cielo */
+}
+
+/* Etiqueta */
+.etiqueta {
+    -fx-text-fill: #000080; /* Azul Marino */
+}
+
+/* Contenedor principal */
+.contenedor-principal {
+    -fx-background-color: #FFFFFF; /* Blanco */
+    -fx-padding: 20px; /* Relleno */
+}
