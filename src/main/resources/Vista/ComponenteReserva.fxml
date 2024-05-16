@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="contenedor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="132.0" prefWidth="170.0" stylesheets="../Estilos/estilo.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="contenedor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="147.0" prefWidth="202.0" stylesheets="../Estilos/estilo.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
     <children>
       <Label fx:id="fecha" alignment="CENTER" prefHeight="17.0" prefWidth="222.0" text="Label">
          <font>
@@ -20,21 +20,30 @@
          </font>
       </Label>
       <Label fx:id="estado" alignment="CENTER" prefHeight="17.0" prefWidth="205.0" text="Label" />
-      <Button fx:id="espacio" mnemonicParsing="false" prefHeight="25.0" prefWidth="209.0" text="Button" > <cursor>
+      <Button fx:id="espacio" mnemonicParsing="false" prefHeight="25.0" prefWidth="209.0" text="Espacio"> <cursor>
           <Cursor fx:constant="HAND" />
       </cursor>
+         <font>
+            <Font size="14.0" />
+         </font>
       </Button>
-        <HBox prefHeight="100.0" prefWidth="200.0">
+        <HBox prefHeight="47.0" prefWidth="202.0">
             <children>
-                <Button fx:id="botonUpdate" mnemonicParsing="false" prefHeight="97.0" prefWidth="85.0" text="MODIFICAR">
+                <Button fx:id="botonUpdate" mnemonicParsing="false" prefHeight="46.0" prefWidth="103.0" text="MODIFICAR">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
                 </Button>
-                <Button fx:id="botonCancelar" mnemonicParsing="false" prefHeight="97.0" prefWidth="89.0" text="CANCELAR">
+                <Button fx:id="botonCancelar" mnemonicParsing="false" prefHeight="46.0" prefWidth="100.0" text="CANCELAR">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
                 </Button>
             </children>
         </HBox>
