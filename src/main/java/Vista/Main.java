@@ -1,5 +1,6 @@
 package Vista;
 
+import Controlador.InicioController;
 import Modelo.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Time;
+import java.time.LocalDate;
 
 public class Main extends Application {
 
@@ -38,15 +41,23 @@ public class Main extends Application {
 
 
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/Vista/ReservaPrueba.fxml"));
 
-            Scene scene = new Scene(root, 600, 400);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/Inicio.fxml"));
+            Parent root = loader.load();
+
+
+
+            Scene scene = new Scene(root, 300, 350);
+
+            InicioController controlador = loader.getController();
+            controlador.setEscenaOriginal(scene);
 
             // Establecer la escena en la ventana principal (primaryStage)
             primaryStage.setScene(scene);
 
             // Establecer el título de la ventana
-            primaryStage.setTitle("Ejemplo de JavaFX");
+            primaryStage.setTitle("SpaceSync");
 
             // Mostrar la ventana
             primaryStage.show();

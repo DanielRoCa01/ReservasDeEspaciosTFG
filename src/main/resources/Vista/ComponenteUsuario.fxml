@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox  fx:id="contenedor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="112.0" prefWidth="179.0" stylesheets="../Estilos/estilo.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="contenedor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="112.0" prefWidth="145.0" stylesheets="../Estilos/estilo.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane prefHeight="200.0" prefWidth="194.0">
          <children>
-            <Button onAction="#handleAbrirConsulta" fx:id="botonNombre" mnemonicParsing="false" prefHeight="57.0" prefWidth="179.0" styleClass="botón-principal" text="Espacio">
+            <Button fx:id="botonNombre" mnemonicParsing="false" onAction="#handleAbrirConsulta" prefHeight="57.0" prefWidth="145.0" styleClass="botón-principal" text="Usuario">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -24,15 +24,7 @@
       <Pane prefHeight="85.0" prefWidth="170.0" />
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button onAction="#handleAbrirFormularioEspacio" fx:id="botonUpdate" mnemonicParsing="false" prefHeight="30.0" prefWidth="91.0" text="Modificar">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
-            <Button onAction="#handleAbrirFormularioReserva" fx:id="botonReservar" mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" text="Reservar">
+            <Button fx:id="botonUpdate" mnemonicParsing="false" onAction="#handleAbrirFormularioUsuario" prefHeight="39.0" prefWidth="179.0" text="Modificar">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

@@ -2,6 +2,7 @@ package Modelo;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -31,14 +32,14 @@ public class AccesoSQL {
     }
 	
 
-	public ArrayList<Reserva> leerReservas( Date fecha, Time hora1, Time hora2, Integer idEspacio, Integer idUsuario,String estado)
+	public ArrayList<Reserva> leerReservas( LocalDate fecha, Time hora1, Time hora2, Espacio espacio,Usuario usuario,String estado,int idInstalacion)
 	{
 		ArrayList<Reserva> listaReservas=new ArrayList<Reserva> ();
 		try
 		{
 			conectar();
 			//Añade a la lista todos los registros de la tabla mangas
-			listaReservas.addAll(consultar(generarConsultaReserva(  fecha,  hora1,  hora2,  idEspacio,  idUsuario,estado)));
+			listaReservas.addAll(consultar(generarConsultaReserva(  fecha,  hora1,  hora2,  espacio,  usuario,estado,idInstalacion)));
 			desconectar();
 			return listaReservas;
 		}catch(NullPointerException e) 
@@ -48,12 +49,13 @@ public class AccesoSQL {
 		}	
 	}
 
-	public String generarConsultaReserva( Date fecha, Time hora1, Time hora2, Integer idEspacio, Integer idUsuario,String estado) {
-		StringBuilder consulta = new StringBuilder("SELECT * FROM reservas WHERE 1=1");
+	public String generarConsultaReserva( LocalDate fecha, Time hora1, Time hora2, Espacio espacio,Usuario usuario,String estado,int idInstalacion) {
+		StringBuilder consulta = new StringBuilder("SELECT * FROM reservas WHERE idEspacio in\n" +
+				"(SELECT idEspacio FROM tfg_reservas.espacios where idInstalacion="+idInstalacion+")");
 
 		// Agregar condiciones según los parámetros recibidos
 		if (fecha != null) {
-			consulta.append(" AND fechaReserva = ").append("'"+fecha+"'");
+			consulta.append(" AND fechaReserva = ").append("'"+fecha.toString()+"'");
 		}
 
 		if (hora1 != null) {
@@ -61,23 +63,39 @@ public class AccesoSQL {
 		}
 
 		if (hora2 != null) {
-			consulta.append(" AND horaFin <= ").append("'"+hora2+"'");
+			consulta.append(" AND horaFinal <= ").append("'"+hora2+"'");
 		}
 
-		if (idEspacio != null) {
-			consulta.append(" AND idEspacio = ").append(idEspacio);
+		if (espacio != null) {
+			consulta.append(" AND idEspacio = ").append(espacio.getIdEspacio());
 		}
 
-		if (idUsuario != null) {
-			consulta.append(" AND idUsuario = ").append(idUsuario);
+		if (usuario != null) {
+			consulta.append(" AND idUsuario = ").append(usuario.getIdUsuario());
 		}
-		if (!estado.contentEquals("TODOS")) {
-			consulta.append(" AND idUsuario = ").append(idUsuario);
+		if (!estado.contentEquals("TODOS") ) {
+			consulta.append(" AND estado = ").append("'"+estado+"'");
 		}
 
 
 
+		System.out.println(consulta.toString());
+		return consulta.toString();
+	}
 
+	public String generarConsultaUsuario( Seccion seccion,String rol,int idInstalacion) {
+		StringBuilder consulta = new StringBuilder("SELECT * FROM usuarios WHERE idInstalacion= "+idInstalacion);
+
+		// Agregar condiciones según los parámetros recibidos
+		if (seccion != null) {
+			consulta.append(" AND idSeccion = ").append(seccion.getIdSeccion());
+		}
+
+		if (rol != null) {
+			consulta.append(" AND rol = ").append("'"+rol+"'");
+		}
+
+		System.out.println(consulta.toString());
 		return consulta.toString();
 	}
 
@@ -85,7 +103,7 @@ public class AccesoSQL {
 	public boolean escribirReservas(ArrayList<Reserva> listaReservas)
 	{
 
-		return escribir(new ArrayList<Object>(listaReservas),Reserva.CAMPOS_SQL);
+		return escribir(new ArrayList<Persistente>(listaReservas),Reserva.CAMPOS_SQL);
 
 	}
 	public boolean escribirReserva(Reserva reserva)
@@ -94,14 +112,14 @@ public class AccesoSQL {
 		return escribir(reserva,Reserva.CAMPOS_SQL);
 
 	}
-	public boolean escribir(ArrayList<Object> lista, String campos)
+	public boolean escribir(ArrayList<Persistente> lista, String campos)
 	{
 
 		String cadena = generarStringInsercion(lista);
 		if(!lista.isEmpty())
 		{
 			boolean bool=true;
-			bool=ejecutarSentencia("TRUNCATE TABLE mangas");
+
 			bool=ejecutarSentencia("INSERT INTO "+campos+" VALUES "
 					+cadena.replaceAll("'NULL'", "null")); //Se pone el formato correcto para el tipo null
 			return bool; 	//Devuelve si el resusltado de la operaciónse se ha realziado correctamente
@@ -109,40 +127,22 @@ public class AccesoSQL {
 		return false;		//Devuelve si el resusltado de la operaciónse no se ha realziado correctamente
 
 	}
-	public boolean escribir(Object object, String campos)
+	public boolean escribir(Persistente object, String campos)
 	{
 
 		if(object!=null)
 		{
 			boolean bool=true;
-
+			System.out.println("INSERT INTO "+campos+" VALUES "
+					+object.toValoresSQL().replaceAll("'NULL'", "null"));
 			bool=ejecutarSentencia("INSERT INTO "+campos+" VALUES "
-					+object.toString().replaceAll("'NULL'", "null")); //Se pone el formato correcto para el tipo null
+					+object.toValoresSQL().replaceAll("'NULL'", "null")); //Se pone el formato correcto para el tipo null
 			return bool; 	//Devuelve si el resusltado de la operaciónse se ha realziado correctamente
 		}
 		return false;		//Devuelve si el resusltado de la operaciónse no se ha realziado correctamente
 
 	}
-	public boolean modificarReserva(Reserva reserva)
-	{
-
-		if(reserva!=null)
-		{
-			boolean bool=true;
-
-			bool=ejecutarSentencia("UPDATE reservas SET "+Reserva.CAMPOS[1]+"="+reserva.getUsuario().getIdUsuario()+" , "
-					+Reserva.CAMPOS[2]+"="+reserva.getEspacio().getidEspacio()+" , "
-					+Reserva.CAMPOS[3]+"= '"+reserva.getHoraInicio()+"' , "
-					+Reserva.CAMPOS[4]+"= '"+reserva.getHoraFinal()+"' , "
-					+Reserva.CAMPOS[5]+"= '"+reserva.getFecha()+"' , "
-					+Reserva.CAMPOS[6]+"= 'MODIFICADA' , "
-					+Reserva.CAMPOS[7]+"= '"+reserva.getDescripcion()+"'"
-					+" WHERE "+Reserva.CAMPOS[0]+"="+reserva.getId()); //Se pone el formato correcto para el tipo null
-			return bool; 	//Devuelve si el resusltado de la operaciónse se ha realziado correctamente
-		}
-		return false;		//Devuelve si el resusltado de la operaciónse no se ha realziado correctamente
-
-	}public boolean cancelarReserva(Reserva reserva)
+	public boolean cancelarReserva(Reserva reserva)
 	{
 
 		if(reserva!=null)
@@ -152,8 +152,22 @@ public class AccesoSQL {
 			bool=ejecutarSentencia("UPDATE reservas SET "
 
 
-					+Reserva.CAMPOS[6]+"= 'CANCELADA' , "
-					+" WHERE "+Reserva.CAMPOS[0]+"="+reserva.getId()); //Se pone el formato correcto para el tipo null
+					+Reserva.CAMPOS[6]+"= 'CANCELADA' "
+					+" WHERE "+Reserva.CAMPOS[0]+" = "+reserva.getId()); //Se pone el formato correcto para el tipo null
+			return bool; 	//Devuelve si el resusltado de la operaciónse se ha realziado correctamente
+		}
+		return false;		//Devuelve si el resusltado de la operaciónse no se ha realziado correctamente
+
+	}
+	public boolean cancelarReservasProhibidas(Espacio espacio)
+	{
+
+		if(espacio!=null)
+		{
+			boolean bool=true;
+
+			bool=ejecutarSentencia("Update reservas set estado='CANCELADA' where ('"+espacio.getHoraApertura()+"' > horaInicio or '"+espacio.getHoraCierre()+"' < horaInicio or  '"
+					+espacio.getHoraApertura()+"' > horaFinal or '"+espacio.getHoraCierre()+"' <horaFinal) and idEspacio="+espacio.getIdEspacio()); //Se pone el formato correcto para el tipo null
 			return bool; 	//Devuelve si el resusltado de la operaciónse se ha realziado correctamente
 		}
 		return false;		//Devuelve si el resusltado de la operaciónse no se ha realziado correctamente
@@ -161,6 +175,19 @@ public class AccesoSQL {
 	}
 
 
+	public boolean modificar(Persistente persistente)
+	{
+
+		if(persistente!=null)
+		{
+			boolean bool=true;
+
+			bool=ejecutarSentencia("UPDATE "+persistente.getUpdateSQL()); //Se pone el formato correcto para el tipo null
+			return bool; 	//Devuelve si el resusltado de la operaciónse se ha realziado correctamente
+		}
+		return false;		//Devuelve si el resusltado de la operaciónse no se ha realziado correctamente
+
+	}
 
 	public ArrayList<Espacio> leerEspacios(int idInstalacion) {
         try
@@ -193,7 +220,7 @@ public class AccesoSQL {
 
 
 	public boolean escribirEspacios(ArrayList<Espacio> listaEspacios) {
-		return escribir(new ArrayList<Object>(listaEspacios),Espacio.CAMPOS_SQL);
+		return escribir(new ArrayList<Persistente>(listaEspacios),Espacio.CAMPOS_SQL);
 	}
 	public boolean escribirEspacio(Espacio espacio) {
 		return escribir(espacio,Espacio.CAMPOS_SQL);
@@ -217,7 +244,7 @@ public class AccesoSQL {
 	}
 
 	public boolean escribirInstalaciones(ArrayList<Instalacion> listaInstalaciones) {
-		return escribir(new ArrayList<Object>(listaInstalaciones),Instalacion.CAMPOS_SQL);
+		return escribir(new ArrayList<Persistente>(listaInstalaciones),Instalacion.CAMPOS_SQL);
 	}
 	public boolean escribirInstalacion(Instalacion instalacion) {
 		return escribir(instalacion,Instalacion.CAMPOS_SQL);
@@ -239,10 +266,43 @@ public class AccesoSQL {
 			return null;
 		}
 	}
+	public ArrayList<Usuario> leerUsuarios(  Seccion seccion,String rol,int idInstalacion) {
+		try
+		{
+			conectar();
+			//Añade a la lista todos los registros de la tabla mangas
+			ArrayList<Usuario> listaUsuarios = new ArrayList<Usuario>(consultarListaUsuarios(generarConsultaUsuario( seccion, rol, idInstalacion)));
+			desconectar();
+			return listaUsuarios;
+		}catch(NullPointerException e)
+		{
+			e.printStackTrace();
+
+			return null;
+		}
+	}
+	public ArrayList<Seccion> leerSecciones( int idInstalacion) {
+		try
+		{
+			conectar();
+			//Añade a la lista todos los registros de la tabla mangas
+			ArrayList<Seccion> listaSecciones = new ArrayList<Seccion>(consultarListaSecciones("SELECT * FROM secciones where idInstalacion="+idInstalacion));
+			desconectar();
+			return listaSecciones;
+		}catch(NullPointerException e)
+		{
+			e.printStackTrace();
+
+			return null;
+		}
+	}
+	public boolean escribirSeccion(Seccion seccion) {
+		return escribir(seccion,Seccion.CAMPOS_SQL);
+	}
 
 
 	public boolean escribirUsuarios(ArrayList<Usuario> listaUsuarios) {
-		return escribir(new ArrayList<Object>(listaUsuarios),Usuario.CAMPOS_SQL);
+		return escribir(new ArrayList<Persistente>(listaUsuarios),Usuario.CAMPOS_SQL);
 	}
 	public boolean escribirUsuario(Usuario usuario) {
 		return escribir(usuario,Usuario.CAMPOS_SQL);
@@ -255,43 +315,53 @@ public class AccesoSQL {
 	 * @param listaReservas listado de registros manga
 	 * @return String con los resgistros de los mangas
 	 */
-	private String generarStringInsercion(ArrayList<Object> listaReservas)
+	private String generarStringInsercion(ArrayList<Persistente> listaReservas)
 	{
 		String cadena="";
-		for(Object res:listaReservas)
+		for(Persistente res:listaReservas)
 		{
 			if(listaReservas.indexOf(res)==0)
 			{
-				cadena=cadena+res.toString();
+				cadena=cadena+res.toValoresSQL();
 			}
 			else 
 			{
-			cadena=cadena+","+res.toString();
+			cadena=cadena+","+res.toValoresSQL();
 			}
 		}
 		return cadena;
 	}
 
-	public boolean comprobarNombreEspacio(String nombre){
-		return ejecutarFuncion("select comprobarNombreEspacio('"+nombre+"')");
+	public boolean comprobarNombreEspacio(String nombre,int idInstalacion){
+
+
+		return ejecutarFuncion("select comprobarNombreEspacio('"+nombre+"',"+idInstalacion+")");
+	}
+
+	public boolean comprobarDisponibilidad(int idEspacio,LocalDate fecha,Time horaInicio,Time horaFinal){
+		boolean b=ejecutarFuncion("select comprobarDisponibilidad("+idEspacio+",'"+fecha+"','"+horaInicio+"','"+horaFinal+"')");
+		return b;
 	}
 	private  boolean ejecutarFuncion(String sentencia)
 	{
-		Boolean bool;
-		conectar();
-		try
-		{
-			//Se genera una instantanea de la base de datos
-			Statement st=con.createStatement();
-			bool=st.execute(sentencia);
-			st.close();
-		} catch (SQLException e)
-		{
+		boolean resultado = false;
+
+
+		try  {
+			conectar();
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(sentencia);
+			if (rs.next()) {
+				resultado = rs.getBoolean(1);
+			}
+
+		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
 		}
-		desconectar();
-		return bool;
+
+		return resultado;
+
+
 	}
 	/**
 	 * Ejecuta una sentencia en lka base de datos
@@ -382,7 +452,7 @@ public class AccesoSQL {
 			//Inserción del resultado en la lista
 			while(result.next()) {
 				listaUsuarios.add(new Usuario (result.getInt(1),result.getString(2),
-						result.getString(3),result.getString(4),
+						result.getString(3),consultarSeccion(result.getInt(4)),
 						consultarInstalacion(result.getInt(5))));
 			}
 			st.close();
@@ -390,6 +460,24 @@ public class AccesoSQL {
 			e.printStackTrace();
 		}
 		return listaUsuarios;
+	}
+	private  ArrayList<Seccion> consultarListaSecciones(String consulta)
+	{
+		ArrayList<Seccion> listaSecciones= new ArrayList<Seccion> ();
+		try {
+			Statement st=con.createStatement();//instantanea de la base de datos
+			ResultSet result= st.executeQuery(consulta);//Resultado de la consulta
+			//Inserción del resultado en la lista
+			while(result.next()) {
+				listaSecciones.add(new Seccion (result.getInt(1),result.getString(2),
+						result.getString(3),
+						consultarInstalacion(result.getInt(4))));
+			}
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return listaSecciones;
 	}
 
 	private  ArrayList<Instalacion> consultarListaInstalaciones(String consulta)
@@ -407,6 +495,41 @@ public class AccesoSQL {
 			e.printStackTrace();
 		}
 		return listaIntalaciones;
+	}
+	private static int horaAMediasHoras(Time hora) {
+		// Convertimos la hora a minutos y luego dividimos por 30 minutos (una media hora)
+		LocalTime localTime = hora.toLocalTime();
+
+		// Calcular minutos desde la medianoche
+		int minutos = localTime.getHour() * 60 + localTime.getMinute();
+
+		// Convertir a medias horas y retornar como int
+		return minutos / 30;
+	}
+	public boolean[]consultarHorario(int idEspacio, LocalDate fecha)
+	{
+		boolean[] arrayMediasHoras = new boolean[48];
+		try {
+			conectar();
+			Statement st=con.createStatement();//instantanea de la base de datos
+			ResultSet result= st.executeQuery("SELECT horaInicio, horaFinal FROM reservas WHERE idEspacio="+idEspacio+" AND fechaReserva='"+fecha.toString()+"' AND estado!='CANCELADA'");//Resultado de la consulta
+			//Inserción del resultado en la lista
+			while(result.next()) {
+
+				int indiceInicio = horaAMediasHoras(result.getTime(1));
+				int indiceFinal = horaAMediasHoras(result.getTime(2));
+
+				// Establecemos como false los elementos correspondientes en el rango de índices
+				for (int i = indiceInicio; i < indiceFinal; i++) {
+					arrayMediasHoras[i] = true;
+				}
+			}
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		desconectar();
+		return arrayMediasHoras;
 	}
 	public  Espacio consultarEspacio(int id)
 	{
@@ -443,7 +566,7 @@ public class AccesoSQL {
 			//Inserción del resultado en la lista
 
 			Usuario usuario= new Usuario (result.getInt(1),result.getString(2),
-					result.getString(3),result.getString(4),
+					result.getString(3),consultarSeccion(result.getInt(4)),
 					consultarInstalacion(result.getInt(5)));
 
 
@@ -455,6 +578,81 @@ public class AccesoSQL {
 		}
 		desconectar();
 		return null;
+	}
+	public  Seccion consultarSeccion(int id)
+	{
+		conectar();
+		String consulta="SELECT * FROM secciones WHERE idSeccion="+id;
+		try {
+			Statement st=con.createStatement();//instantanea de la base de datos
+			ResultSet result= st.executeQuery(consulta);//Resultado de la consulta
+			result.next();
+			//Inserción del resultado en la lista
+
+			Seccion seccion= new Seccion (result.getInt(1),result.getString(2),
+					result.getString(3),
+					consultarInstalacion(result.getInt(4)));
+
+
+			st.close();
+			return seccion;
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		desconectar();
+		return null;
+	}
+	public  Seccion consultarSeccion(int instalacion, String nombreSeccion)
+	{
+		conectar();
+		String consulta="SELECT * FROM secciones WHERE idSeccion="+instalacion+" AND nombreSeccion='"+nombreSeccion+"'";
+
+		try {
+			Statement st=con.createStatement();//instantanea de la base de datos
+			ResultSet result= st.executeQuery(consulta);//Resultado de la consulta
+			result.next();
+			//Inserción del resultado en la lista
+
+			Seccion seccion= new Seccion (result.getInt(1),result.getString(2),
+					result.getString(3),
+					consultarInstalacion(result.getInt(4)));
+
+
+			st.close();
+			return seccion;
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		desconectar();
+		return null;
+	}
+
+	public  Usuario consultarUsuario(String instalacion, String nombreUsuario)
+	{
+		conectar();
+		try {
+		String consulta="SELECT * FROM usuarios WHERE nombreUsuario='"+nombreUsuario + "' AND idInstalacion="+consultarInstalacion(instalacion).getIdInstalacion();
+
+			Statement st=con.createStatement();//instantanea de la base de datos
+			ResultSet result= st.executeQuery(consulta);//Resultado de la consulta
+			result.next();
+			//Inserción del resultado en la lista
+
+			Usuario usuario= new Usuario (result.getInt(1),result.getString(2),
+					result.getString(3),consultarSeccion(result.getInt(4)),
+					consultarInstalacion(result.getInt(5)));
+
+
+			st.close();
+			return usuario;
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 	public  Instalacion consultarInstalacion(int id)
 	{
@@ -477,6 +675,27 @@ public class AccesoSQL {
 		}
 		desconectar();
 		return null;
+	}
+	public  Instalacion consultarInstalacion(String nombreInstalacion) throws SQLException {
+		conectar();
+		String consulta="SELECT * FROM instalaciones WHERE nombre='"+nombreInstalacion+"'";
+		try {
+			Statement st=con.createStatement();//instantanea de la base de datos
+			ResultSet result= st.executeQuery(consulta);//Resultado de la consulta
+
+			//Inserción del resultado en la lista
+			result.next();
+			Instalacion instalacion= new Instalacion (result.getInt(1),result.getString(2),result.getString(3));;
+
+
+			st.close();
+			return instalacion;
+		} catch (SQLException e)
+		{
+			throw new SQLException();
+		}
+
+
 	}
 
 

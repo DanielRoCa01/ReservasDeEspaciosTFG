@@ -7,45 +7,49 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="contenedor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="147.0" prefWidth="202.0" stylesheets="../Estilos/estilo.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
-      <Label fx:id="fecha" alignment="CENTER" prefHeight="17.0" prefWidth="222.0" text="Label">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Label fx:id="horas" alignment="CENTER" prefHeight="17.0" prefWidth="222.0" text="Label">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="estado" alignment="CENTER" prefHeight="17.0" prefWidth="205.0" text="Label" />
-      <Button fx:id="espacio" mnemonicParsing="false" prefHeight="25.0" prefWidth="209.0" text="Espacio"> <cursor>
-          <Cursor fx:constant="HAND" />
-      </cursor>
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-        <HBox prefHeight="47.0" prefWidth="202.0">
-            <children>
-                <Button fx:id="botonUpdate" mnemonicParsing="false" prefHeight="46.0" prefWidth="103.0" text="MODIFICAR">
-                    <cursor>
-                        <Cursor fx:constant="HAND" />
-                    </cursor>
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-                </Button>
-                <Button fx:id="botonCancelar" mnemonicParsing="false" prefHeight="46.0" prefWidth="100.0" text="CANCELAR">
-                    <cursor>
-                        <Cursor fx:constant="HAND" />
-                    </cursor>
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-                </Button>
-            </children>
-        </HBox>
-    </children>
+<VBox fx:id="contenedor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="177.0" prefWidth="202.0" stylesheets="../Estilos/estilo.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <Button mnemonicParsing="false" onAction="#handleAbrirInformacionReserva" prefHeight="35.0" prefWidth="202.0" text="Reserva">
+      <font>
+         <Font name="System Bold" size="18.0" />
+      </font>
+   </Button>
+    <Label fx:id="fecha" alignment="CENTER" prefHeight="17.0" prefWidth="222.0" text="Label">
+        <font>
+          <Font size="24.0" />
+        </font>
+    </Label>
+    <Label fx:id="horas" alignment="CENTER" prefHeight="17.0" prefWidth="222.0" text="Label">
+        <font>
+          <Font size="18.0" />
+        </font>
+    </Label>
+    <Label fx:id="estado" alignment="CENTER" prefHeight="17.0" prefWidth="205.0" text="Label" />
+    <Button fx:id="espacio" mnemonicParsing="false" onAction="#handleAbrirConsulta" prefHeight="25.0" prefWidth="209.0" text="Espacio">
+        <cursor>
+            <Cursor fx:constant="HAND" />
+        </cursor>
+        <font>
+          <Font size="14.0" />
+        </font>
+    </Button>
+    <HBox prefHeight="47.0" prefWidth="202.0">
+        <children>
+            <Button fx:id="botonUpdate" mnemonicParsing="false" onAction="#handleAbrirFormularioReserva" prefHeight="46.0" prefWidth="103.0" text="MODIFICAR">
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font>
+            </Button>
+            <Button fx:id="botonCancelar" mnemonicParsing="false" onAction="#handleCancelarReserva" prefHeight="46.0" prefWidth="100.0" text="CANCELAR">
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font>
+            </Button>
+        </children>
+    </HBox>
 </VBox>

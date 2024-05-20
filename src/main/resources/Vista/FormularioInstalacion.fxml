@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<TitledPane fx:id="contenedorFormularios" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="287.0" prefWidth="664.0" text="FORMULARIO DE INSTALACIÓN" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<TitledPane fx:id="contenedorFormularios" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="664.0" text="FORMULARIO DE INSTALACIÓN" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.FormularioInstalacionController">
    <content>
       <GridPane hgap="10.0" prefHeight="187.0" prefWidth="550.0">
          <columnConstraints>
@@ -54,7 +54,7 @@
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor></TextArea>
-            <Button fx:id="botonEnviar" mnemonicParsing="false" prefHeight="43.0" prefWidth="265.0" text="botonEnviar" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <Button fx:id="botonEnviar" mnemonicParsing="false" onAction="#handleVolverVentanaOriginal" prefHeight="43.0" prefWidth="265.0" text="botonEnviar" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

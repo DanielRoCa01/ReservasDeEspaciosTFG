@@ -2,12 +2,16 @@ package Modelo;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class Reserva {
+public class Reserva implements Persistente {
 
     private int id;
     public static String CAMPOS_SQL="`reservas` ( `idUsuario`, `idEspacio`, `horaInicio`, `horaFinal`, `fechaReserva`, `estado`, `descripcion`)";
     public static String[] CAMPOS= {"idReserva","idUsuario", "idEspacio", "horaInicio", "horaFinal", "fechaReserva", "estado", "descripcion"};
+
+    public final static ArrayList<String> ESTADOS = new ArrayList<>(Arrays.asList("CANCELADA", "RESERVADA", "MODIFICADA", "REALIZADA","TODOS"));
 
     private Espacio espacio;
 
@@ -22,7 +26,7 @@ public class Reserva {
 
     private String estado;
 
-    public Reserva(int id, Espacio espacio, Usuario usuario, Time horaInicio, Time horaFinal, LocalDate fecha, String descripcion,String estado) {
+    public Reserva(int id, Espacio espacio, Usuario usuario, Time horaInicio, Time horaFinal, LocalDate fecha,String estado, String descripcion) {
         this.id = id;
         this.espacio = espacio;
         this.usuario = usuario;
@@ -36,14 +40,14 @@ public class Reserva {
     @Override
     public String toString() {
         return
-                "("  + espacio.getidEspacio() +
-                "," + usuario.getIdUsuario()+
-                ",'" + horaInicio + '\''+
-                ",'" + horaFinal + '\''+
-                ",'" + fecha + '\''+
-                ",'" + descripcion + '\'' +
-                ",'" + estado + '\'' +
-                ')';
+                "("  + usuario.getIdUsuario() +
+                        "," +espacio.getIdEspacio() +
+                        ",'" + horaInicio + '\''+
+                        ",'" + horaFinal + '\''+
+                        ",'" + fecha + '\''+
+                        ",'" + estado+ '\'' +
+                        ",'" +descripcion  + '\'' +
+                        ')';
     }
 public boolean isUpadatable(){
         return !LocalDate.now().isAfter(fecha.minusWeeks(1)) ;
@@ -113,5 +117,22 @@ public boolean isUpadatable(){
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    @Override
+    public String toValoresSQL() {
+          return toString();
+    }
+
+    @Override
+    public String getUpdateSQL() {
+        return "reservas SET "+Reserva.CAMPOS[1]+"="+usuario.getIdUsuario()+" , "
+                +Reserva.CAMPOS[2]+"="+espacio.getIdEspacio()+" , "
+                +Reserva.CAMPOS[3]+"= '"+horaInicio+"' , "
+                +Reserva.CAMPOS[4]+"= '"+horaFinal+"' , "
+                +Reserva.CAMPOS[5]+"= '"+fecha+"' , "
+                +Reserva.CAMPOS[6]+"= 'MODIFICADA' , "
+                +Reserva.CAMPOS[7]+"= '"+descripcion+"'"
+                +" WHERE "+Reserva.CAMPOS[0]+"="+id;
     }
 }
