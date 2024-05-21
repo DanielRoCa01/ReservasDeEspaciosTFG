@@ -40,11 +40,13 @@ public class FormularioUsuarioController implements Initializable {
             nombre.setText(usuario.getNombre());
             rol.setValue(usuario.getRol());
             botonEnviar.setOnAction(event -> modificar());
+            botonEnviar.setText("Modificar");
 
         }
         else {
             seccion.getItems().addAll(ac.leerSecciones(instalacion.getIdInstalacion()));
             botonEnviar.setOnAction(event -> crear());
+            botonEnviar.setText("Crear");
         }
     }
 

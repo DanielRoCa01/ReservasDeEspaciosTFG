@@ -93,7 +93,7 @@ public class InicioController implements Initializable {
             Stage stageActual = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
 
             Scene scene = new Scene(root);
-
+            scene.getStylesheets().add("/resources/Estilos/estilo1.css");
             // Obtener el controlador de la nueva ventana y pasarle la escena original
             FormularioInstalacionController nuevaVentanaController = loader.getController();
             nuevaVentanaController.setEscenaOriginal(escenaOriginal);

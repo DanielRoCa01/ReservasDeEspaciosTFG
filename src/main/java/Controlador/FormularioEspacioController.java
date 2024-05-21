@@ -43,9 +43,11 @@ public class FormularioEspacioController implements Initializable {
             horaCierre.setValue(espacio.getHoraCierre());
             horaApertura.setValue(espacio.getHoraApertura());
             botonEnviar.setOnAction(event -> modificar());
+            botonEnviar.setText("Modificar");
         }
         else {
             botonEnviar.setOnAction(event -> crear());
+            botonEnviar.setText("Crear");
         }
     }
 

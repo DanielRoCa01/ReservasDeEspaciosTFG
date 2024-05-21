@@ -47,6 +47,7 @@ public class ComponenteReservaController implements Initializable {
         espacio.setText(reserva.getEspacio().getNombre());
         if(reserva.getEstado().contentEquals("CANCELADA")){
             botonUpdate.setVisible(false);
+            botonCancelar.setVisible(false);
         }
     }
     public ComponenteReservaController(Reserva reserva, StackPane panelInformacion, StackPane panelFormulario) {

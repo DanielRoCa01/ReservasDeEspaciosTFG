@@ -47,10 +47,12 @@ public class FormularioSeccionController implements Initializable {
             nombre.setText(seccion.getNombre());
             descripcion.setText(seccion.getDescripcion());
             botonEnviar.setOnAction(event -> modificar());
+            botonEnviar.setText("Modificar");
 
         }
         else {
             botonEnviar.setOnAction(event -> crear());
+            botonEnviar.setText("Crear");
         }
     }
 

@@ -606,7 +606,7 @@ public class AccesoSQL {
 	public  Seccion consultarSeccion(int instalacion, String nombreSeccion)
 	{
 		conectar();
-		String consulta="SELECT * FROM secciones WHERE idSeccion="+instalacion+" AND nombreSeccion='"+nombreSeccion+"'";
+		String consulta="SELECT * FROM secciones WHERE idInstalacion="+instalacion+" AND nombreSeccion='"+nombreSeccion+"'";
 
 		try {
 			Statement st=con.createStatement();//instantanea de la base de datos

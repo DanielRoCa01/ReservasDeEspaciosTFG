@@ -57,7 +57,7 @@ public class FormularioReservaController implements Initializable {
             horaFinal.setValue(reserva.getHoraFinal());
             descripcion.setText(reserva.getDescripcion());
             botonEnviar.setOnAction(event -> modificar());
-
+            botonEnviar.setText("Modificar");
         }
         else {
             usuarioBox.setValue(usuario);
@@ -74,6 +74,7 @@ public class FormularioReservaController implements Initializable {
                 usuarioBox.getItems().addAll(ac.consultarUsuario(usuario.getInstalacion().getIdInstalacion()));
                 usuarioBox.setDisable(false);
             }
+            botonEnviar.setText("Crear");
         }
 
     }

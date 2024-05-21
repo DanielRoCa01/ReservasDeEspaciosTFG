@@ -58,7 +58,7 @@ public class Main extends Application {
 
             // Establecer el título de la ventana
             primaryStage.setTitle("SpaceSync");
-
+            primaryStage.setResizable(false);
             // Mostrar la ventana
             primaryStage.show();
         } catch (IOException e) {

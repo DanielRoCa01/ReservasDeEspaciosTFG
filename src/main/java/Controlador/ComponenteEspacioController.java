@@ -43,6 +43,7 @@ public class ComponenteEspacioController implements Initializable {
     private LocalDate fechaConsulta;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        contenedor.getStylesheets().add("/Estilos/estilo1.css");
         botonNombre.setText(espacio.getNombre());
         if(!usuario.getRol().contentEquals("ADMINISTRADOR")){
             botonUpdate.setVisible(false);
