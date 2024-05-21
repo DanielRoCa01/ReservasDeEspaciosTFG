@@ -2,6 +2,7 @@ package Controlador;
 
 import Modelo.AccesoSQL;
 import Modelo.Espacio;
+import Modelo.Reserva;
 import Modelo.Usuario;
 import Vista.ComponenteEspacio;
 import javafx.fxml.FXMLLoader;
@@ -34,6 +35,8 @@ public class ConsultaEspaciosController implements Initializable {
     private StackPane panelnformacion;
 
     private StackPane panelFormulario;
+
+    private AccesoSQL ac = AccesoSQL.obtenerInstancia();
 
     public BorderPane getContenedor() {
         return contenedor;
@@ -71,9 +74,9 @@ public class ConsultaEspaciosController implements Initializable {
         Tooltip.install(fecha, ttFecha);
         Tooltip.install(todo, ttTodo);
 
-        horaFinal.getItems().addAll(generarHorasDelDia());
+        horaFinal.getItems().addAll(Reserva.generarHorasDelDia());
         horaInicial.setValue(Time.valueOf("00:00:00"));
-        horaInicial.getItems().addAll(generarHorasDelDia());
+        horaInicial.getItems().addAll(Reserva.generarHorasDelDia());
         horaFinal.setValue(Time.valueOf("23:30:00"));
         fecha.setValue(LocalDate.now());
         todo.setOnAction(event -> seleccionarTodo());
@@ -81,7 +84,7 @@ public class ConsultaEspaciosController implements Initializable {
     }
 
     public void consultar(){
-        AccesoSQL ac=new AccesoSQL();
+
         contenedorLista.getChildren().clear();
         if(todo.isSelected()){
             for(Espacio espacio:ac.leerEspacios(usuario.getInstalacion().getIdInstalacion())){
@@ -101,15 +104,5 @@ public class ConsultaEspaciosController implements Initializable {
         horaFinal.setDisable(seleccionado);
         horaInicial.setDisable(seleccionado);
     }
-    public static List<Time> generarHorasDelDia() {
-        List<Time> horasDelDia = new ArrayList<>();
 
-        for (int hora = 0; hora < 24; hora++) {
-            for (int minuto = 0; minuto < 60; minuto += 30) {
-                horasDelDia.add(Time.valueOf(String.format("%02d:%02d:00", hora, minuto)));
-            }
-        }
-
-        return horasDelDia;
-    }
 }

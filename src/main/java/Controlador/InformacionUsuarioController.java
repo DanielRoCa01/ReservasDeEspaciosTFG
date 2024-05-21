@@ -49,11 +49,6 @@ public class InformacionUsuarioController implements Initializable {
         rol.setText(usuario.getRol());
         seccion.setText(usuario.getSeccion().getNombre());
         descripcionSeccion.setText(usuario.getSeccion().getDescripcion());
-
-
-
-
-
     }
 
 

@@ -39,16 +39,14 @@ public class FormularioReservaController implements Initializable {
     private boolean seModifica;
     private Espacio espacio;
     private Usuario usuario;
+
+    private AccesoSQL ac = AccesoSQL.obtenerInstancia();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        AccesoSQL ac =new AccesoSQL();
-
-
-
 
         if (seModifica){
-            horaInicial.getItems().addAll(generarHorasDelDia().subList(horaAMediasHoras(reserva.getEspacio().getHoraApertura()),horaAMediasHoras(reserva.getEspacio().getHoraCierre())));
-            horaFinal.getItems().addAll(generarHorasDelDia().subList(horaAMediasHoras(reserva.getEspacio().getHoraApertura()),horaAMediasHoras(reserva.getEspacio().getHoraCierre())));
+            horaInicial.getItems().addAll(Reserva.generarHorasDelDia().subList(Reserva.horaAMediasHoras(reserva.getEspacio().getHoraApertura()),Reserva.horaAMediasHoras(reserva.getEspacio().getHoraCierre())));
+            horaFinal.getItems().addAll(Reserva.generarHorasDelDia().subList(Reserva.horaAMediasHoras(reserva.getEspacio().getHoraApertura()),Reserva.horaAMediasHoras(reserva.getEspacio().getHoraCierre())));
             espacioBox.getItems().addAll(ac.leerEspacios(reserva.getEspacio().getInstalacion().getIdInstalacion()));
             usuarioBox.setValue(reserva.getUsuario());
             espacioBox.setValue(reserva.getEspacio());
@@ -66,8 +64,8 @@ public class FormularioReservaController implements Initializable {
             horaInicial.setValue(hora1);
             horaFinal.setValue(hora2);
 
-            horaInicial.getItems().addAll(generarHorasDelDia().subList(horaAMediasHoras(espacio.getHoraApertura()),horaAMediasHoras(espacio.getHoraCierre())));
-            horaFinal.getItems().addAll(generarHorasDelDia().subList(horaAMediasHoras(espacio.getHoraApertura()),horaAMediasHoras(espacio.getHoraCierre())));
+            horaInicial.getItems().addAll(Reserva.generarHorasDelDia().subList(Reserva.horaAMediasHoras(espacio.getHoraApertura()),Reserva.horaAMediasHoras(espacio.getHoraCierre())));
+            horaFinal.getItems().addAll(Reserva.generarHorasDelDia().subList(Reserva.horaAMediasHoras(espacio.getHoraApertura()),Reserva.horaAMediasHoras(espacio.getHoraCierre())));
             espacioBox.getItems().addAll(ac.leerEspacios(usuario.getInstalacion().getIdInstalacion()));
             botonEnviar.setOnAction(event -> crear());
             if(usuario.getRol().contentEquals("ADMINISTRADOR")){
@@ -80,7 +78,6 @@ public class FormularioReservaController implements Initializable {
     }
 
     private void crear() {
-        AccesoSQL ac =new AccesoSQL();
         if(!ac.comprobarDisponibilidad(espacioBox.getValue().getIdEspacio(),fechaPicker.getValue(),horaInicial.getValue(),horaFinal.getValue())){
             alertarEspacio();
             return;
@@ -107,7 +104,7 @@ public class FormularioReservaController implements Initializable {
     }
 
     public void  modificar(){
-        AccesoSQL ac =new AccesoSQL();
+
         if (!reserva.isUpadatable()){
             alertarFecha();
             return;
@@ -211,25 +208,6 @@ public class FormularioReservaController implements Initializable {
     public VBox getContenedor() {
         return contenedorFormularios;
     }
-    public static List<Time> generarHorasDelDia() {
-        List<Time> horasDelDia = new ArrayList<>();
 
-        for (int hora = 0; hora < 24; hora++) {
-            for (int minuto = 0; minuto < 60; minuto += 30) {
-                horasDelDia.add(Time.valueOf(String.format("%02d:%02d:00", hora, minuto)));
-            }
-        }
 
-        return horasDelDia;
-    }
-    private static int horaAMediasHoras(Time hora) {
-        // Convertimos la hora a minutos y luego dividimos por 30 minutos (una media hora)
-        LocalTime localTime = hora.toLocalTime();
-
-        // Calcular minutos desde la medianoche
-        int minutos = localTime.getHour() * 60 + localTime.getMinute();
-
-        // Convertir a medias horas y retornar como int
-        return minutos / 30;
-    }
 }

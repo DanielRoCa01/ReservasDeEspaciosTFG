@@ -25,6 +25,8 @@ public class FormularioInstalacionController implements Initializable {
     public TextArea descripcion;
     private Scene escenaOriginal;
 
+    private AccesoSQL ac = AccesoSQL.obtenerInstancia();
+
     public void setEscenaOriginal(Scene escenaOriginal) {
         this.escenaOriginal = escenaOriginal;
     }
@@ -63,7 +65,7 @@ public class FormularioInstalacionController implements Initializable {
     }
 
     private void crearInstalacion() throws SQLException {
-        AccesoSQL ac = new AccesoSQL();
+
 
         ac.escribirInstalacion(new Instalacion(0,nombre.getText(),descripcion.getText()));
 

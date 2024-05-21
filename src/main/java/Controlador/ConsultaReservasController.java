@@ -44,6 +44,7 @@ public class ConsultaReservasController implements Initializable {
     private StackPane panelnformacion;
 
     private StackPane panelFormulario;
+    private AccesoSQL ac = AccesoSQL.obtenerInstancia();
 
     public BorderPane getContenedor() {
         return contenedor;
@@ -69,10 +70,10 @@ public class ConsultaReservasController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        AccesoSQL ac=new AccesoSQL() ;
-        horaFinal.getItems().addAll(generarHorasDelDia());
+
+        horaFinal.getItems().addAll(Reserva.generarHorasDelDia());
         horaInicial.setValue(Time.valueOf("00:00:00"));
-        horaInicial.getItems().addAll(generarHorasDelDia());
+        horaInicial.getItems().addAll(Reserva.generarHorasDelDia());
         horaFinal.setValue(Time.valueOf("23:30:00"));
         fecha.setValue(LocalDate.now());
         todo.setOnAction(event -> seleccionarTodo());
@@ -89,7 +90,7 @@ public class ConsultaReservasController implements Initializable {
     }
 
     public void consultar(){
-        AccesoSQL ac=new AccesoSQL();
+
         contenedorLista.getChildren().clear();
         if(todo.isSelected()){
             for(Reserva reserva:ac.leerReservas(null,null,null,null,null,"TODOS",usuario.getInstalacion().getIdInstalacion())){
@@ -111,15 +112,5 @@ public class ConsultaReservasController implements Initializable {
         estado.setDisable(seleccionado);
         espacio.setDisable(seleccionado);
     }
-    public static List<Time> generarHorasDelDia() {
-        List<Time> horasDelDia = new ArrayList<>();
 
-        for (int hora = 0; hora < 24; hora++) {
-            for (int minuto = 0; minuto < 60; minuto += 30) {
-                horasDelDia.add(Time.valueOf(String.format("%02d:%02d:00", hora, minuto)));
-            }
-        }
-
-        return horasDelDia;
-    }
 }

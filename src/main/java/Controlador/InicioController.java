@@ -40,7 +40,7 @@ public class InicioController implements Initializable {
     }
 
     private void iniciar(){
-        AccesoSQL ac=new AccesoSQL();
+        AccesoSQL ac=AccesoSQL.obtenerInstancia();
         try {
             Usuario usuarioLog=ac.consultarUsuario(instalacion.getText(),usuario.getText());
             if(usuarioLog!=null) {
@@ -62,6 +62,7 @@ public class InicioController implements Initializable {
                 DashBoardController dashBoardController = loader.getController();
                 dashBoardController.setUsuario(usuarioLog);
                 Scene scene = new Scene(root);
+
                 // Configurar la nueva escena en el escenario actual y mostrarla
                 stageActual.setScene(scene);
                 stageActual.show();

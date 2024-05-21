@@ -30,6 +30,8 @@ public class FormularioSeccionController implements Initializable {
     public Button botonEnviar;
     public TextArea descripcion;
 
+    private AccesoSQL ac = AccesoSQL.obtenerInstancia();
+
     public FormularioSeccionController(Instalacion instalacion) {
         this.instalacion=instalacion;
         seModifica=false;
@@ -42,7 +44,7 @@ public class FormularioSeccionController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        AccesoSQL ac=new AccesoSQL();
+
         if (seModifica){
             nombre.setText(seccion.getNombre());
             descripcion.setText(seccion.getDescripcion());
@@ -57,7 +59,7 @@ public class FormularioSeccionController implements Initializable {
     }
 
     private void crear()  {
-        AccesoSQL ac =new AccesoSQL();
+
         if(ac.consultarSeccion(instalacion.getIdInstalacion(),nombre.getText())!=null){
             alertarNombre();
             return;
@@ -79,7 +81,7 @@ public class FormularioSeccionController implements Initializable {
     }
 
     public void  modificar() {
-        AccesoSQL ac =new AccesoSQL();
+
         if(ac.consultarSeccion(seccion.getInstalacion().getIdInstalacion(),nombre.getText())!=null&&!nombre.getText().contentEquals(seccion.getNombre())){
                 alertarNombre();
                 return;

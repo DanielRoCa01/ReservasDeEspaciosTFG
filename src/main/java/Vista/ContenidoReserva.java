@@ -1,5 +1,6 @@
-package Controlador;
+package Vista;
 
+import Controlador.ContenidoReservaController;
 import Modelo.Espacio;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;

@@ -30,10 +30,12 @@ public class FormularioEspacioController implements Initializable {
     private boolean seModifica;
     private Espacio espacio;
     private Usuario usuario;
+
+    private AccesoSQL ac = AccesoSQL.obtenerInstancia();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        horaApertura.getItems().addAll(generarHorasDelDia());
-        horaCierre.getItems().addAll(generarHorasDelDia());
+        horaApertura.getItems().addAll(Reserva.generarHorasDelDia());
+        horaCierre.getItems().addAll(Reserva.generarHorasDelDia());
         tamaño.getItems().addAll(Espacio.TAMAÑOS);
 
         if (seModifica){
@@ -52,7 +54,7 @@ public class FormularioEspacioController implements Initializable {
     }
 
     private void crear() {
-        AccesoSQL ac =new AccesoSQL();
+
         if(ac.comprobarNombreEspacio(nombre.getText(),usuario.getInstalacion().getIdInstalacion())){
             alertarEspacio();
             return;
@@ -79,7 +81,7 @@ public class FormularioEspacioController implements Initializable {
     }
 
     public void  modificar(){
-        AccesoSQL ac =new AccesoSQL();
+
         if(ac.comprobarNombreEspacio(nombre.getText(),espacio.getInstalacion().getIdInstalacion())  ){
             if(!nombre.getText().contentEquals(espacio.getNombre())){
                 alertarEspacio();
@@ -170,15 +172,5 @@ public class FormularioEspacioController implements Initializable {
     public VBox getContenedor() {
         return contenedorFormularios;
     }
-    public static List<Time> generarHorasDelDia() {
-        List<Time> horasDelDia = new ArrayList<>();
 
-        for (int hora = 0; hora < 24; hora++) {
-            for (int minuto = 0; minuto < 60; minuto += 30) {
-                horasDelDia.add(Time.valueOf(String.format("%02d:%02d:00", hora, minuto)));
-            }
-        }
-
-        return horasDelDia;
-    }
 }

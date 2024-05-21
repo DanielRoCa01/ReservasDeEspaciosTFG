@@ -2,8 +2,10 @@ package Modelo;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Reserva implements Persistente {
 
@@ -134,5 +136,27 @@ public boolean isUpadatable(){
                 +Reserva.CAMPOS[6]+"= 'MODIFICADA' , "
                 +Reserva.CAMPOS[7]+"= '"+descripcion+"'"
                 +" WHERE "+Reserva.CAMPOS[0]+"="+id;
+    }
+    public static List<Time> generarHorasDelDia() {
+        List<Time> horasDelDia = new ArrayList<>();
+
+        for (int hora = 0; hora < 24; hora++) {
+            for (int minuto = 0; minuto < 60; minuto += 30) {
+                horasDelDia.add(Time.valueOf(String.format("%02d:%02d:00", hora, minuto)));
+            }
+        }
+
+        return horasDelDia;
+    }
+
+    public static int horaAMediasHoras(Time hora) {
+        // Convertimos la hora a minutos y luego dividimos por 30 minutos (una media hora)
+        LocalTime localTime = hora.toLocalTime();
+
+        // Calcular minutos desde la medianoche
+        int minutos = localTime.getHour() * 60 + localTime.getMinute();
+
+        // Convertir a medias horas y retornar como int
+        return minutos / 30;
     }
 }

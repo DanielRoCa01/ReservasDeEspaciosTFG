@@ -27,10 +27,10 @@ public class FormularioUsuarioController implements Initializable {
 
     private boolean seModifica;
     public Button botonEnviar;
+
+    private AccesoSQL ac = AccesoSQL.obtenerInstancia();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        AccesoSQL ac=new AccesoSQL();
-
 
         rol.getItems().addAll(Usuario.ROLES);
 
@@ -51,7 +51,6 @@ public class FormularioUsuarioController implements Initializable {
     }
 
     private void crear()  {
-        AccesoSQL ac =new AccesoSQL();
         if(ac.consultarUsuario(instalacion.getName(),nombre.getText())!=null){
 
             alertarNombre();
@@ -77,7 +76,6 @@ public class FormularioUsuarioController implements Initializable {
     }
 
     public void  modificar() {
-        AccesoSQL ac =new AccesoSQL();
         if(ac.consultarUsuario(usuario.getInstalacion().getName(),nombre.getText())!=null&&!nombre.getText().contentEquals(usuario.getNombre())){
 
                 alertarNombre();

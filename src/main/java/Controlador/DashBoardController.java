@@ -1,5 +1,6 @@
 package Controlador;
 
+import Modelo.AccesoSQL;
 import Modelo.Usuario;
 import Vista.*;
 import javafx.event.ActionEvent;
@@ -29,7 +30,12 @@ public class DashBoardController implements Initializable {
     public BorderPane contenedor;
 
     private Usuario usuario;
+
 private FXMLLoader loader;
+
+    public DashBoardController(){
+
+    }
     public BorderPane getContenedor() {
         return contenedor;
     }
@@ -46,6 +52,7 @@ private FXMLLoader loader;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
 
 
     }

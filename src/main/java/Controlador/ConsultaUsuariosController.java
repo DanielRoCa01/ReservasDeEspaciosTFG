@@ -40,6 +40,8 @@ public class ConsultaUsuariosController implements Initializable {
 
     private StackPane panelFormulario;
 
+    private AccesoSQL ac = AccesoSQL.obtenerInstancia();
+
     public BorderPane getContenedor() {
         return contenedor;
     }
@@ -84,7 +86,6 @@ public class ConsultaUsuariosController implements Initializable {
     }
 
     public void consultar(){
-        AccesoSQL ac=new AccesoSQL();
         ArrayList<Usuario> listaUsuarios= new ArrayList<Usuario>();
         contenedorLista.getChildren().clear();
         if(todo.isSelected()){
