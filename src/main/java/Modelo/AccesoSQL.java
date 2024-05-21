@@ -10,6 +10,13 @@ import java.util.Objects;
  *  La calse Acceso SQL modela el acceso a una base de datos SQL
  */
 public class AccesoSQL {
+	private static AccesoSQL instancia;
+	public static AccesoSQL obtenerInstancia() {
+		if (instancia == null) {
+			instancia = new AccesoSQL();
+		}
+		return instancia;
+	}
 
 	private static  Connection con;//Conexion con la base de datos
 
