@@ -2,7 +2,7 @@ package Modelo;
 
 public class Instalacion implements Persistente {
 
-    private String name;
+    private String nombre;
     public static String CAMPOS_SQL="`instalaciones`" +
             "("+
             "`nombre`," +
@@ -12,22 +12,22 @@ public class Instalacion implements Persistente {
     private String descripcion;
 
     public Instalacion(int idInstalacion,String name ,String descripcion) {
-        this.name = name;
+        this.nombre = name;
         this.idInstalacion = idInstalacion;
         this.descripcion = descripcion;
     }
 
     @Override
     public String toString() {
-        return idInstalacion+"-"+name.toUpperCase();
+        return idInstalacion+"-"+ nombre.toUpperCase();
     }
 
-    public String getName() {
-        return name;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public int getIdInstalacion() {
@@ -48,7 +48,7 @@ public class Instalacion implements Persistente {
 
     @Override
     public String toValoresSQL() {
-        return "('" +name +"','"+ descripcion + "')";
+        return "('" + nombre +"','"+ descripcion + "')";
     }
 
     @Override

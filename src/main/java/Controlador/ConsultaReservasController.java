@@ -93,13 +93,14 @@ public class ConsultaReservasController implements Initializable {
 
         contenedorLista.getChildren().clear();
         if(todo.isSelected()){
-            for(Reserva reserva:ac.leerReservas(null,null,null,null,null,"TODOS",usuario.getInstalacion().getIdInstalacion())){
-                contenedorLista.getChildren().add(new ComponenteReserva(reserva,panelnformacion,panelFormulario));
+            Usuario user=usuario.getRol().contentEquals("ADMINISTRADOR")?null:usuario;
+            for(Reserva reserva:ac.leerReservas(null,null,null,null,user,"TODOS",usuario.getInstalacion().getIdInstalacion())){
+                contenedorLista.getChildren().add(new ComponenteReserva(reserva,panelnformacion,panelFormulario,usuario));
             }
         }
         else {
             for(Reserva reserva:ac.leerReservas(fecha.getValue(),horaInicial.getValue(),horaFinal.getValue(),espacio.getValue(),usuarioConsulta.getValue(),estado.getValue(),usuario.getInstalacion().getIdInstalacion())){
-                contenedorLista.getChildren().add(new ComponenteReserva(reserva,panelnformacion,panelFormulario));
+                contenedorLista.getChildren().add(new ComponenteReserva(reserva,panelnformacion,panelFormulario,usuario));
             }
         }
     }
@@ -111,6 +112,7 @@ public class ConsultaReservasController implements Initializable {
         usuarioConsulta.setDisable(seleccionado);
         estado.setDisable(seleccionado);
         espacio.setDisable(seleccionado);
+
     }
 
 }

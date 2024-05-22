@@ -150,6 +150,6 @@ public class Espacio implements Persistente{
                 +Espacio.CAMPOS[4]+"= '"+horaCierre.get()+"' , "
                 +Espacio.CAMPOS[5]+"= '"+descripcion.get()+"' , "
                 +Espacio.CAMPOS[6]+"= "+instalacion.get().getIdInstalacion()+
-                " WHERE "+Espacio.CAMPOS[0]+"="+idEspacio;
+                " WHERE "+Espacio.CAMPOS[0]+"="+idEspacio.get();
     }
 }

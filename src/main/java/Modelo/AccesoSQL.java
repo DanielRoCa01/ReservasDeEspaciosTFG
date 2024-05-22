@@ -188,7 +188,7 @@ public class AccesoSQL {
 		if(persistente!=null)
 		{
 			boolean bool=true;
-
+			System.out.println("UPDATE "+persistente.getUpdateSQL());
 			bool=ejecutarSentencia("UPDATE "+persistente.getUpdateSQL()); //Se pone el formato correcto para el tipo null
 			return bool; 	//Devuelve si el resusltado de la operaciónse se ha realziado correctamente
 		}
@@ -419,8 +419,8 @@ public class AccesoSQL {
 			ResultSet result= st.executeQuery(consulta);//Resultado de la consulta
 			//Inserción del resultado en la lista
 			while(result.next()) {
-				reservas.add(new Reserva(result.getInt(1),consultarEspacio(result.getInt(2)),
-						consultarUsuario(result.getInt(3)),result.getTime(4),
+				reservas.add(new Reserva(result.getInt(1),consultarEspacio(result.getInt(3)),
+						consultarUsuario(result.getInt(2)),result.getTime(4),
 										result.getTime(5), LocalDate.parse(result.getString(6)),
 										result.getString(7),result.getString(8)));
 			}

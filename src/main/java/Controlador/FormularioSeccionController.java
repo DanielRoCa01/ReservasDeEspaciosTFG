@@ -75,7 +75,7 @@ public class FormularioSeccionController implements Initializable {
     private void informarDeCreacion() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("CREACION CORRECTA");
-        alert.setHeaderText("El usuario"+nombre.getText()+" se ha creado correctamente");
+        alert.setHeaderText("El formulario"+nombre.getText()+" se ha creado correctamente");
 
         alert.showAndWait();
     }

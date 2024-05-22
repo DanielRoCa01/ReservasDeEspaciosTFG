@@ -68,8 +68,9 @@ public class FormularioInstalacionController implements Initializable {
 
 
         ac.escribirInstalacion(new Instalacion(0,nombre.getText(),descripcion.getText()));
-
-        ac.escribirUsuario(new Usuario(0,nombreAdministrador.getText(),"ADMINISTRADOR",new Seccion(0,"GENERAL","Proposito general",ac.consultarInstalacion(nombre.getText())), ac.consultarInstalacion(nombre.getText())));
+        Instalacion instalacion=ac.consultarInstalacion(nombre.getText());
+        ac.escribirSeccion(new Seccion(0,"GENERAL","Proposito general",instalacion));
+        ac.escribirUsuario(new Usuario(0,nombreAdministrador.getText(),"ADMINISTRADOR",ac.consultarSeccion(instalacion.getIdInstalacion(),"GENERAL"), instalacion));
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

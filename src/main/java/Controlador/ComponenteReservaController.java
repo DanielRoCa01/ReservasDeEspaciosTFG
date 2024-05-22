@@ -2,6 +2,7 @@ package Controlador;
 
 import Modelo.AccesoSQL;
 import Modelo.Reserva;
+import Modelo.Usuario;
 import Vista.FormularioEspacio;
 import Vista.FormularioReserva;
 import Vista.InformacionEspacio;
@@ -23,6 +24,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ComponenteReservaController implements Initializable {
+    private  Usuario usuario;
     public VBox contenedor;
     public Label fecha;
     public Label horas;
@@ -49,11 +51,13 @@ public class ComponenteReservaController implements Initializable {
             botonUpdate.setVisible(false);
             botonCancelar.setVisible(false);
         }
+
     }
-    public ComponenteReservaController(Reserva reserva, StackPane panelInformacion, StackPane panelFormulario) {
+    public ComponenteReservaController(Reserva reserva, StackPane panelInformacion, StackPane panelFormulario, Usuario usuario) {
     this.reserva=reserva;
         this.panelInformacion=panelInformacion;
         this.panelFormulario=panelFormulario;
+        this.usuario=usuario;
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Vista/ComponenteReserva.fxml"));
         fxmlLoader.setController(this);

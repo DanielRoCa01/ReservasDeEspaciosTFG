@@ -8,7 +8,6 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +50,7 @@ public class FormularioUsuarioController implements Initializable {
     }
 
     private void crear()  {
-        if(ac.consultarUsuario(instalacion.getName(),nombre.getText())!=null){
+        if(ac.consultarUsuario(instalacion.getNombre(),nombre.getText())!=null){
 
             alertarNombre();
             return;
@@ -76,7 +75,7 @@ public class FormularioUsuarioController implements Initializable {
     }
 
     public void  modificar() {
-        if(ac.consultarUsuario(usuario.getInstalacion().getName(),nombre.getText())!=null&&!nombre.getText().contentEquals(usuario.getNombre())){
+        if(ac.consultarUsuario(usuario.getInstalacion().getNombre(),nombre.getText())!=null&&!nombre.getText().contentEquals(usuario.getNombre())){
 
                 alertarNombre();
                 return;

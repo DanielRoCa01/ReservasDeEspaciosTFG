@@ -124,8 +124,8 @@ public class FormularioReservaController implements Initializable {
         }
         if (confirmarModificacion()) {
             reserva=new Reserva(reserva.getId(),espacioBox.getValue(),reserva.getUsuario(),horaInicial.getValue(),horaFinal.getValue(),fechaPicker.getValue(),descripcion.getText(),"RESERVADA");
-            ac.modificar(espacio);
-            ac.cancelarReservasProhibidas( espacio);
+            ac.modificar(reserva);
+
         }
     }
 
@@ -157,7 +157,7 @@ public class FormularioReservaController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("ERROR DE FORMULARIO");
         alert.setHeaderText("Horas incorrectas");
-        alert.setContentText("La hora de apertura debe ser menor a la hora de cierre");
+        alert.setContentText("La hora de inicio debe ser menor a la hora final");
         alert.showAndWait();
     }
 
