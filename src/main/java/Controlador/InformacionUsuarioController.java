@@ -43,7 +43,7 @@ public class InformacionUsuarioController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        nombreInstalacion.setText(usuario.getNombre());
+        nombreInstalacion.setText(usuario.getInstalacion().getNombre());
         descripcionInstalacion.setText(usuario.getInstalacion().getDescripcion());
         nombreUsuario.setText(usuario.getNombre());
         rol.setText(usuario.getRol());

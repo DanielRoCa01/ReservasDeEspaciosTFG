@@ -1,5 +1,7 @@
 package Modelo;
 
+import javafx.scene.control.Alert;
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -35,6 +37,10 @@ public class AccesoSQL {
 
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Error en la base de datos ");
+			alert.setHeaderText("Ha ocurrido un error con la conexion a la base de datos ");
+			alert.showAndWait();
 		}
     }
 	
@@ -349,6 +355,10 @@ public class AccesoSQL {
 		boolean b=ejecutarFuncion("select comprobarDisponibilidad("+idEspacio+",'"+fecha+"','"+horaInicio+"','"+horaFinal+"')");
 		return b;
 	}
+	public boolean comprobarDisponibilidad(int idEspacio,LocalDate fecha,Time horaInicio,Time horaFinal, int idReserva){
+		boolean b=ejecutarFuncion("select comprobarDisponibilidadModif("+idEspacio+",'"+fecha+"','"+horaInicio+"','"+horaFinal+"',"+idReserva+")");
+		return b;
+	}
 	private  boolean ejecutarFuncion(String sentencia)
 	{
 		boolean resultado = false;
@@ -654,8 +664,9 @@ public class AccesoSQL {
 
 			st.close();
 			return usuario;
-		} catch (SQLException e)
+		} catch (SQLException | NullPointerException e)
 		{
+			desconectar();
 			e.printStackTrace();
 			return null;
 		}
@@ -663,9 +674,10 @@ public class AccesoSQL {
 	}
 	public  Instalacion consultarInstalacion(int id)
 	{
-		conectar();
-	String consulta="SELECT * FROM instalaciones WHERE idInstalacion="+id;
+
 		try {
+			conectar();
+			String consulta="SELECT * FROM instalaciones WHERE idInstalacion="+id;
 			Statement st=con.createStatement();//instantanea de la base de datos
 			ResultSet result= st.executeQuery(consulta);//Resultado de la consulta
 
@@ -683,7 +695,7 @@ public class AccesoSQL {
 		desconectar();
 		return null;
 	}
-	public  Instalacion consultarInstalacion(String nombreInstalacion) throws SQLException {
+	public  Instalacion consultarInstalacion(String nombreInstalacion){
 		conectar();
 		String consulta="SELECT * FROM instalaciones WHERE nombre='"+nombreInstalacion+"'";
 		try {
@@ -699,10 +711,10 @@ public class AccesoSQL {
 			return instalacion;
 		} catch (SQLException e)
 		{
-			throw new SQLException();
+			e.printStackTrace();
 		}
-
-
+		desconectar();
+		return null;
 	}
 
 

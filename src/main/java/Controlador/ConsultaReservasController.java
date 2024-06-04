@@ -85,7 +85,7 @@ public class ConsultaReservasController implements Initializable {
         estado.setValue("TODOS");
         if(usuario.getRol().contentEquals("ADMINISTRADOR")){
             usuarioConsulta.setDisable(false);
-            usuarioConsulta.getItems().addAll(ac.consultarUsuario(usuario.getInstalacion().getIdInstalacion()));
+            usuarioConsulta.getItems().addAll(ac.leerUsuarios(usuario.getInstalacion().getIdInstalacion()));
         }
     }
 
@@ -109,9 +109,20 @@ public class ConsultaReservasController implements Initializable {
         fecha.setDisable(seleccionado);
         horaFinal.setDisable(seleccionado);
         horaInicial.setDisable(seleccionado);
-        usuarioConsulta.setDisable(seleccionado);
+
         estado.setDisable(seleccionado);
         espacio.setDisable(seleccionado);
+
+        horaInicial.setValue(null);
+        horaFinal.setValue(null);
+        fecha.setValue(null);
+        espacio.setValue(null);
+        if(usuario.getRol().contentEquals("ADMINISTRADOR")){
+            usuarioConsulta.setDisable(seleccionado);
+            usuarioConsulta.setValue(null);
+        }
+
+        estado.setValue("TODOS");
 
     }
 

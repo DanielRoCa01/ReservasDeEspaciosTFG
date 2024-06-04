@@ -14,7 +14,7 @@
          <content>
             <VBox prefWidth="382.0">
                <children>
-                  <Label fx:id="nombreInstalacion" alignment="CENTER" prefHeight="75.0" prefWidth="372.0" text="Reserva" textAlignment="CENTER">
+                  <Label fx:id="nombreInstalacion" alignment="CENTER" prefHeight="140.0" prefWidth="342.0" text="Reserva" textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font name="System Bold" size="48.0" />
                      </font>

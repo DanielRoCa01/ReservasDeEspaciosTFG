@@ -59,12 +59,12 @@ public class FormularioEspacioController implements Initializable {
             alertarEspacio();
             return;
         }
-        else if(nombre.getText().contentEquals("")||tamaño.getValue().contentEquals("") ||descripcion.getText().contentEquals("")
+         if(nombre.getText().contentEquals("")||tamaño.getValue().contentEquals("") ||descripcion.getText().contentEquals("")
                ||horaApertura.getValue()==null||horaCierre.getValue()==null){
             alertarVacio();
             return;
         }
-        else if(horaApertura.getValue().getTime()>=horaCierre.getValue().getTime()){
+        if(horaApertura.getValue().getTime()>=horaCierre.getValue().getTime()){
             alertarHoras();
             return;
         }
@@ -89,12 +89,12 @@ public class FormularioEspacioController implements Initializable {
             }
 
         }
-        else if(nombre.getText().contentEquals("")||tamaño.getValue().contentEquals("") ||descripcion.getText().contentEquals("")
+        if(nombre.getText().contentEquals("")||tamaño.getValue().contentEquals("") ||descripcion.getText().contentEquals("")
                 ||horaApertura.getValue()==null||horaCierre.getValue()==null){
             alertarVacio();
             return;
         }
-        else if(horaApertura.getValue().getTime()>=horaCierre.getValue().getTime()){
+         if(horaApertura.getValue().getTime()>=horaCierre.getValue().getTime()){
             alertarHoras();
             return;
         }

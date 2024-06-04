@@ -44,6 +44,7 @@ public class FormularioReservaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+
         if (seModifica){
             horaInicial.getItems().addAll(Reserva.generarHorasDelDia().subList(Reserva.horaAMediasHoras(reserva.getEspacio().getHoraApertura()),Reserva.horaAMediasHoras(reserva.getEspacio().getHoraCierre())));
             horaFinal.getItems().addAll(Reserva.generarHorasDelDia().subList(Reserva.horaAMediasHoras(reserva.getEspacio().getHoraApertura()),Reserva.horaAMediasHoras(reserva.getEspacio().getHoraCierre())));
@@ -69,11 +70,21 @@ public class FormularioReservaController implements Initializable {
             espacioBox.getItems().addAll(ac.leerEspacios(usuario.getInstalacion().getIdInstalacion()));
             botonEnviar.setOnAction(event -> crear());
             if(usuario.getRol().contentEquals("ADMINISTRADOR")){
-                usuarioBox.getItems().addAll(ac.consultarUsuario(usuario.getInstalacion().getIdInstalacion()));
+                usuarioBox.getItems().addAll(ac.leerUsuarios(usuario.getInstalacion().getIdInstalacion()));
                 usuarioBox.setDisable(false);
             }
             botonEnviar.setText("Crear");
         }
+        espacioBox.setOnAction(event -> cambiarHorario());
+
+    }
+
+    private void cambiarHorario() {
+        Espacio espacio= espacioBox.getValue();
+        horaInicial.getItems().clear();
+        horaFinal.getItems().clear();
+        horaInicial.getItems().addAll(Reserva.generarHorasDelDia().subList(Reserva.horaAMediasHoras(espacio.getHoraApertura()),Reserva.horaAMediasHoras(espacio.getHoraCierre())));
+        horaFinal.getItems().addAll(Reserva.generarHorasDelDia().subList(Reserva.horaAMediasHoras(espacio.getHoraApertura()),Reserva.horaAMediasHoras(espacio.getHoraCierre())));
 
     }
 
@@ -91,7 +102,7 @@ public class FormularioReservaController implements Initializable {
             alertarHoras();
             return;
         }
-        ac.escribirReserva(new Reserva(0,espacioBox.getValue(),usuarioBox.getValue(),horaInicial.getValue(),horaFinal.getValue(),fechaPicker.getValue(),descripcion.getText(),"RESERVADA"));
+        ac.escribirReserva(new Reserva(0,espacioBox.getValue(),usuarioBox.getValue(),horaInicial.getValue(),horaFinal.getValue(),fechaPicker.getValue(),"RESERVADA",descripcion.getText()));
         informarDeCreacion();
     }
 
@@ -109,21 +120,21 @@ public class FormularioReservaController implements Initializable {
             alertarFecha();
             return;
         }
-        if(ac.comprobarDisponibilidad(espacioBox.getValue().getIdEspacio(),fechaPicker.getValue(),horaInicial.getValue(),horaFinal.getValue())){
+        if(!ac.comprobarDisponibilidad(espacioBox.getValue().getIdEspacio(),fechaPicker.getValue(),horaInicial.getValue(),horaFinal.getValue(),reserva.getId())){
             alertarEspacio();
             return;
         }
-        else if(espacioBox.getValue()==null||fechaPicker.getValue()==null
+         if(espacioBox.getValue()==null||fechaPicker.getValue()==null
                 ||horaFinal.getValue()==null||horaInicial.getValue()==null){
             alertarVacio();
             return;
         }
-        else if(horaInicial.getValue().getTime()>=horaFinal.getValue().getTime()){
+         if(horaInicial.getValue().getTime()>=horaFinal.getValue().getTime()){
             alertarHoras();
             return;
         }
         if (confirmarModificacion()) {
-            reserva=new Reserva(reserva.getId(),espacioBox.getValue(),reserva.getUsuario(),horaInicial.getValue(),horaFinal.getValue(),fechaPicker.getValue(),descripcion.getText(),"RESERVADA");
+            reserva=new Reserva(reserva.getId(),espacioBox.getValue(),reserva.getUsuario(),horaInicial.getValue(),horaFinal.getValue(),fechaPicker.getValue(),"RESERVADA",descripcion.getText());
             ac.modificar(reserva);
 
         }

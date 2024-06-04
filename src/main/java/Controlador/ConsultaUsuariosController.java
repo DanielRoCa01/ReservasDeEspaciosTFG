@@ -102,6 +102,8 @@ public class ConsultaUsuariosController implements Initializable {
         boolean seleccionado=todo.isSelected();
         seccionBox.setDisable(seleccionado);
         rolBox.setDisable(seleccionado);
+        seccionBox.setValue(null);
+        rolBox.setValue(null);
     }
 
     @FXML

@@ -64,7 +64,7 @@ public class FormularioSeccionController implements Initializable {
             alertarNombre();
             return;
         }
-        else if(nombre.getText().contentEquals("")||descripcion.getText().contentEquals("")){
+         if(nombre.getText().contentEquals("")||descripcion.getText().contentEquals("")){
             alertarVacio();
             return;
         }
@@ -75,7 +75,7 @@ public class FormularioSeccionController implements Initializable {
     private void informarDeCreacion() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("CREACION CORRECTA");
-        alert.setHeaderText("El formulario"+nombre.getText()+" se ha creado correctamente");
+        alert.setHeaderText("La seccion "+nombre.getText()+" se ha creado correctamente");
 
         alert.showAndWait();
     }
@@ -86,7 +86,7 @@ public class FormularioSeccionController implements Initializable {
                 alertarNombre();
                 return;
         }
-        else if(nombre.getText().contentEquals("")||descripcion.getText().contentEquals("")){
+         if(nombre.getText().contentEquals("")||descripcion.getText().contentEquals("")){
             alertarVacio();
             return;
         }

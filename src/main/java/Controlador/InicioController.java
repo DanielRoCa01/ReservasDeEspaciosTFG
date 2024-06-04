@@ -44,10 +44,7 @@ public class InicioController implements Initializable {
         try {
             Usuario usuarioLog=ac.consultarUsuario(instalacion.getText(),usuario.getText());
             if(usuarioLog!=null) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Inicio correcto");
-                alert.setHeaderText("Usuario encontrado, Bienvenido");
-                alert.showAndWait();
+                alertar(Alert.AlertType.INFORMATION, "Inicio correcto", "Usuario encontrado, Bienvenido");
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/Dashboard.fxml"));
 
@@ -69,18 +66,20 @@ public class InicioController implements Initializable {
                 return;
 
             }
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Inicio incorrecto");
-            alert.setHeaderText("Usuario o instalacion no encontrados");
-            alert.showAndWait();
+            alertar(Alert.AlertType.ERROR, "Inicio incorrecto", "Usuario o instalacion no encontrados");
 
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error en la base de datos");
-            alert.setHeaderText("Ha sucedido un error con la base de datos");
-            alert.showAndWait();
+        } catch (IOException e) {
+            alertar(Alert.AlertType.ERROR, "Error en la ejecucion ", "Ha sucedido un error con el apartado visual");
         }
     }
+
+    private static void alertar(Alert.AlertType error, String s, String s1) {
+        Alert alert = new Alert(error);
+        alert.setTitle(s);
+        alert.setHeaderText(s1);
+        alert.showAndWait();
+    }
+
     @FXML
     public void handleAbrirNuevaInstalacion(ActionEvent event) {
         try {
