@@ -18,15 +18,11 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-
-
         try {
 
-
+            //Carga la ventana inicial desde el archivo fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/Inicio.fxml"));
             Parent root = loader.load();
-
-
 
             Scene scene = new Scene(root, 300, 350);
 
@@ -45,9 +41,6 @@ public class Main extends Application {
             e.printStackTrace();
             // Manejo de la excepción (puede mostrar un mensaje de error o realizar otra acción adecuada)
         }
-
-
-
     }
     public static void main(String[] args){
         launch(args);
