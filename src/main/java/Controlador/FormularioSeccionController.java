@@ -31,12 +31,13 @@ public class FormularioSeccionController implements Initializable {
     public TextArea descripcion;
 
     private AccesoSQL ac = AccesoSQL.obtenerInstancia();
-
+    //Constructor para modificar una seccion
     public FormularioSeccionController(Instalacion instalacion) {
         this.instalacion=instalacion;
         seModifica=false;
         iniciarComponente();
     }
+    //Constructor para crear una Seccion
     public FormularioSeccionController(Seccion seccion) {
         this.seccion=seccion;
         seModifica=true;
@@ -52,6 +53,7 @@ public class FormularioSeccionController implements Initializable {
             botonEnviar.setText("Modificar");
 
         }
+        //Si es un formulario de creacion
         else {
             botonEnviar.setOnAction(event -> crear());
             botonEnviar.setText("Crear");
@@ -59,38 +61,39 @@ public class FormularioSeccionController implements Initializable {
     }
 
     private void crear()  {
-
+        //Si el nombre ya esta en uso
         if(ac.consultarSeccion(instalacion.getIdInstalacion(),nombre.getText())!=null){
-            alertarNombre();
+            alertar(Alert.AlertType.WARNING, "ERROR DE NOMBRE EXISTENTE", "Cambie el nombre de la seccion y pruebe de nuevo");
             return;
         }
+        //Si quedan campos sin rellenar
          if(nombre.getText().contentEquals("")||descripcion.getText().contentEquals("")){
-            alertarVacio();
+             alertar(Alert.AlertType.WARNING, "ERROR CAMPOS SIN RELLENAR", "Por favor rellene todos los campos antes de continuar");
             return;
         }
         ac.escribirSeccion(new Seccion(0,nombre.getText(),descripcion.getText(),instalacion));
-        informarDeCreacion();
+        alertar(Alert.AlertType.INFORMATION, "CREACION CORRECTA", "La seccion "+nombre.getText()+" se ha creado correctamente");
     }
-
-    private void informarDeCreacion() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("CREACION CORRECTA");
-        alert.setHeaderText("La seccion "+nombre.getText()+" se ha creado correctamente");
-
+    private static void alertar(Alert.AlertType error, String s, String s1) {
+        Alert alert = new Alert(error);
+        alert.setTitle(s);
+        alert.setHeaderText(s1);
         alert.showAndWait();
     }
 
-    public void  modificar() {
 
+    public void  modificar() {
+        //Si el nombre ya esta en uso
         if(ac.consultarSeccion(seccion.getInstalacion().getIdInstalacion(),nombre.getText())!=null&&!nombre.getText().contentEquals(seccion.getNombre())){
-                alertarNombre();
+            alertar(Alert.AlertType.WARNING, "ERROR DE NOMBRE EXISTENTE", "Cambie el nombre de la seccion y pruebe de nuevo");
                 return;
         }
+        //Si quedan campos sin rellenar
          if(nombre.getText().contentEquals("")||descripcion.getText().contentEquals("")){
-            alertarVacio();
+             alertar(Alert.AlertType.WARNING, "ERROR CAMPOS SIN RELLENAR", "Por favor rellene todos los campos antes de continuar");
             return;
         }
-
+        //Si se confirma la modificacion
         if (confirmarModificacion()) {
             seccion=new Seccion(seccion.getIdSeccion(),nombre.getText(),descripcion.getText(),seccion.getInstalacion());
             ac.modificar(seccion);
@@ -115,30 +118,10 @@ public class FormularioSeccionController implements Initializable {
     }
 
 
-
-    private void alertarVacio() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("ERROR DE FORMULARIO");
-        alert.setHeaderText("Campos sin rellenar");
-        alert.setContentText("Por favor rellene todos los campos antes de continuar");
-        alert.showAndWait();
-    }
-
-    private void alertarNombre() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("ERROR DE FORMULARIO");
-        alert.setHeaderText("Nombre existente");
-        alert.setContentText("Cambie el nombre del usuario y pruebe de nuevo");
-        alert.showAndWait();
-    }
-
-
-
     private void iniciarComponente() {
+        //Carga el componente visual de un archivo fxml
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Vista/FormularioSeccion.fxml"));
         fxmlLoader.setController(this);
-
-
         try {
             fxmlLoader.load();
 

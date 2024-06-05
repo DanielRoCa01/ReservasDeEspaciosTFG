@@ -53,7 +53,7 @@ public class ConsultaUsuariosController implements Initializable {
 
 
         try {
-
+            //Cargar componente visual del archivo fxml
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Vista/ConsultaInstalacion.fxml"));
             fxmlLoader.setController(this);
             fxmlLoader.load();
@@ -106,6 +106,7 @@ public class ConsultaUsuariosController implements Initializable {
         rolBox.setValue(null);
     }
 
+    //Eventos de boton para abrir los diferentes formularios de creacion y modificacion
     @FXML
     public void handleAbrirFormularioEspacio(ActionEvent event) {
         panelFormulario.getChildren().clear();

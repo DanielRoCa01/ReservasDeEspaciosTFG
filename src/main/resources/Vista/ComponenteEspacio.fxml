@@ -11,7 +11,7 @@
    <children>
       <Pane prefHeight="200.0" prefWidth="194.0">
          <children>
-            <Button onAction="#handleAbrirConsulta" fx:id="botonNombre" mnemonicParsing="false" prefHeight="57.0" prefWidth="179.0" styleClass="botón-principal" text="Espacio">
+            <Button onAction="#handleAbrirInformacionEspacio" fx:id="botonNombre" mnemonicParsing="false" prefHeight="57.0" prefWidth="179.0" styleClass="botón-principal" text="Espacio">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

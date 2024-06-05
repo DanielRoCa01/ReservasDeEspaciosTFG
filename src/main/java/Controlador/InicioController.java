@@ -19,6 +19,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * Controlador de la clase inicio
+ */
 public class InicioController implements Initializable {
 
 
@@ -39,21 +42,21 @@ public class InicioController implements Initializable {
         botonInicio.setOnAction(event -> iniciar());
     }
 
+    /**
+     * Inicia la ventana principal de la aplicacion
+     */
     private void iniciar(){
         AccesoSQL ac=AccesoSQL.obtenerInstancia();
         try {
             Usuario usuarioLog=ac.consultarUsuario(instalacion.getText(),usuario.getText());
             if(usuarioLog!=null) {
                 alertar(Alert.AlertType.INFORMATION, "Inicio correcto", "Usuario encontrado, Bienvenido");
-
+                // Cargar el archivo FXML de la nueva ventana
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/Dashboard.fxml"));
-
                 Parent root = loader.load();
 
                 // Obtener el escenario actual (ventana actual)
                 Stage stageActual = (Stage)  usuario.getScene().getWindow();
-
-
 
                 // Obtener el controlador de la nueva ventana y pasarle la escena original
                 DashBoardController dashBoardController = loader.getController();
@@ -84,9 +87,7 @@ public class InicioController implements Initializable {
     public void handleAbrirNuevaInstalacion(ActionEvent event) {
         try {
             // Cargar el archivo FXML de la nueva ventana
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/FormularioInstalacion.fxml"));
-
             Parent root = loader.load();
 
             // Obtener el escenario actual (ventana actual)
@@ -97,12 +98,6 @@ public class InicioController implements Initializable {
             // Obtener el controlador de la nueva ventana y pasarle la escena original
             FormularioInstalacionController nuevaVentanaController = loader.getController();
             nuevaVentanaController.setEscenaOriginal(escenaOriginal);
-
-
-
-            // Crear una nueva escena con el contenido cargado
-
-
 
             stageActual.setOnCloseRequest((WindowEvent we) -> {
                 stageActual.setScene(escenaOriginal);

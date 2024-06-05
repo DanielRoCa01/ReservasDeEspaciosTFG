@@ -2,19 +2,14 @@ package Controlador;
 
 import Modelo.Espacio;
 import Modelo.Usuario;
-import Vista.ConsultaEspacios;
 import Vista.FormularioEspacio;
 import Vista.FormularioReserva;
 import Vista.InformacionEspacio;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -22,7 +17,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ComponenteEspacioController implements Initializable {
@@ -59,13 +53,8 @@ public class ComponenteEspacioController implements Initializable {
         this.hora1=hora1;
         this.hora2=hora2;
 
-        // Registrar un ChangeListener en el campo nombre del objeto Espacio
-        espacio.nombreProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                botonNombre.setText(newValue);
-            }
-        });
+        //Carga el componente visual desde el archivo fxml
+
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Vista/ComponenteEspacio.fxml"));
         fxmlLoader.setController(this);
 
@@ -80,17 +69,26 @@ public class ComponenteEspacioController implements Initializable {
         return contenedor;
     }
     @FXML
-    public void handleAbrirConsulta(ActionEvent event) {
+    /**
+     * Evento que abre la informacion del espacio
+     */
+    public void handleAbrirInformacionEspacio(ActionEvent event) {
         panelInformacion.getChildren().clear();
         panelInformacion.getChildren().add(new InformacionEspacio(espacio,fechaConsulta));
     }
 
     @FXML
+    /**
+     * Evento que abre el formulario de modificacion del espacio
+     */
     public void handleAbrirFormularioEspacio(ActionEvent event) {
         panelFormulario.getChildren().clear();
         panelFormulario.getChildren().add(new FormularioEspacio(espacio));
     }
     @FXML
+    /**
+     * Evento que abre el formulario de reserva del espacio
+     */
     public void handleAbrirFormularioReserva(ActionEvent event) {
         panelFormulario.getChildren().clear();
         panelFormulario.getChildren().add(new FormularioReserva(usuario,espacio,fechaConsulta,hora1,hora2));

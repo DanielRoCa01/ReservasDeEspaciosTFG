@@ -57,7 +57,7 @@ public class ConsultaReservasController implements Initializable {
 
 
         try {
-
+            //Cargar el componente visual del archivo fxml
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Vista/ConsultaReserva.fxml"));
             fxmlLoader.setController(this);
             fxmlLoader.load();
@@ -89,11 +89,16 @@ public class ConsultaReservasController implements Initializable {
         }
     }
 
+    /**
+     * Rellenar de componentes en funcion a las reservas consultadas
+     */
     public void consultar(){
 
         contenedorLista.getChildren().clear();
+        //Consultar sin filtro
         if(todo.isSelected()){
             Usuario user=usuario.getRol().contentEquals("ADMINISTRADOR")?null:usuario;
+
             for(Reserva reserva:ac.leerReservas(null,null,null,null,user,"TODOS",usuario.getInstalacion().getIdInstalacion())){
                 contenedorLista.getChildren().add(new ComponenteReserva(reserva,panelnformacion,panelFormulario,usuario));
             }
@@ -104,6 +109,7 @@ public class ConsultaReservasController implements Initializable {
             }
         }
     }
+    //Boton para indicar que sea desea realizar una consulta sin filtros
     public void seleccionarTodo(){
         boolean seleccionado=todo.isSelected();
         fecha.setDisable(seleccionado);

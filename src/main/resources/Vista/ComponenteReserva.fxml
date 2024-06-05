@@ -24,7 +24,7 @@
         </font>
     </Label>
     <Label fx:id="estado" alignment="CENTER" prefHeight="17.0" prefWidth="205.0" text="Label" />
-    <Button fx:id="espacio" mnemonicParsing="false" onAction="#handleAbrirConsulta" prefHeight="25.0" prefWidth="209.0" text="Espacio">
+    <Button fx:id="espacio" mnemonicParsing="false" onAction="#handleAbrirInformacionEspacio" prefHeight="25.0" prefWidth="209.0" text="Espacio">
         <cursor>
             <Cursor fx:constant="HAND" />
         </cursor>

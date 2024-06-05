@@ -1,11 +1,8 @@
 package Controlador;
 
-import Modelo.AccesoSQL;
-import Modelo.Espacio;
 import Modelo.Reserva;
 import Vista.InformacionEspacio;
 import Vista.InformacionUsuario;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,11 +13,6 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class InformacionReservaController implements Initializable {
@@ -45,6 +37,7 @@ public class InformacionReservaController implements Initializable {
     public InformacionReservaController(Reserva reserva, StackPane panelInformacion){
         this.reserva =reserva;
         this.panelInformacion =panelInformacion;
+        //Cargar componente en el archivo FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Vista/InformacionReserva.fxml"));
         fxmlLoader.setController(this);
         try {
@@ -56,6 +49,7 @@ public class InformacionReservaController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Se inicializan los componentes visuales con los atributos de la reserva
         descripcion.setText(reserva.getDescripcion());
         horaApertura.setText(reserva.getHoraInicio().toString());
         horaCierre.setText(reserva.getHoraFinal().toString());
@@ -69,7 +63,7 @@ public class InformacionReservaController implements Initializable {
 
     }
     @FXML
-    public void handleAbrirConsulta(ActionEvent event) {
+    public void handleAbrirEspacio(ActionEvent event) {
         panelInformacion.getChildren().clear();
         panelInformacion.getChildren().add(new InformacionEspacio(reserva.getEspacio(),reserva.getFecha()));
     }

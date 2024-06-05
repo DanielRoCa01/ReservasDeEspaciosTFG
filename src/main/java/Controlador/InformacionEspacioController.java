@@ -39,9 +39,12 @@ public class InformacionEspacioController implements Initializable {
     public VBox contenedorTabla;
 
     private AccesoSQL ac = AccesoSQL.obtenerInstancia();
+
     public InformacionEspacioController(Espacio espacio, LocalDate fechaConsulta){
         this.espacio =espacio;
         this.fechaConsulta=fechaConsulta;
+
+        //Carga el componete visual del archivo fxml
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Vista/InformacionEspacio.fxml"));
         fxmlLoader.setController(this);
         try {
@@ -53,6 +56,7 @@ public class InformacionEspacioController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Inicializa los componentes visuales con los atributos del espacio
         descripcion.setText(espacio.getDescripcion());
         horaApertura.setText(espacio.getHoraApertura().toString());
         horaCierre.setText(espacio.getHoraCierre().toString());
@@ -66,23 +70,18 @@ public class InformacionEspacioController implements Initializable {
         contenedorTabla.getChildren().add(listView);
     }
     private void handleDateChange(LocalDate newDate) {
-        // Handle the date change event
         fechaConsulta=fecha.getValue();
         construirTabla();
-        // You can add your custom logic here
-        // For example, update other UI components based on the selected date
+
     }
 
     private void construirTabla(){
-
-
         boolean[] tabla = ac.consultarHorario(espacio.getIdEspacio(), fecha.getValue());
-        
         listView.getItems().clear();
         // Generar lista de horas del día
         List<Time> horas = Reserva.generarHorasDelDia();
 
-
+        //Rellena una tabla con las disponibilidades del espacio en esa fecha concreta
         for (int i = Reserva.horaAMediasHoras(espacio.getHoraApertura()); i < Reserva.horaAMediasHoras(espacio.getHoraCierre()); i++) {
             String estado = tabla[i] ?  "Reservado":"Disponible";
             String horaEstado = horas.get(i).toString() + " - " + estado;

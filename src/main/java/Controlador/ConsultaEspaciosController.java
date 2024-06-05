@@ -49,7 +49,7 @@ public class ConsultaEspaciosController implements Initializable {
 
 
         try {
-
+            //Cargar el componente visual del archivo fxml
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Vista/ConsultaEspacios.fxml"));
             fxmlLoader.setController(this);
             fxmlLoader.load();
@@ -83,9 +83,13 @@ public class ConsultaEspaciosController implements Initializable {
         botonBuscar.setOnAction(event -> consultar());
     }
 
+    /**
+     * Listar por componentes los espacios consultados
+     */
     public void consultar(){
 
         contenedorLista.getChildren().clear();
+        //Consultar sin filtro
         if(todo.isSelected()){
             for(Espacio espacio:ac.leerEspacios(usuario.getInstalacion().getIdInstalacion())){
                 contenedorLista.getChildren().add(new ComponenteEspacio(espacio,panelnformacion,panelFormulario,fecha.getValue(),usuario,horaInicial.getValue(),horaFinal.getValue()));
@@ -98,6 +102,10 @@ public class ConsultaEspaciosController implements Initializable {
             }
         }
     }
+
+    /**
+     * Funcion para indicar una consulta sin filtro
+     */
     public void seleccionarTodo(){
         boolean seleccionado=todo.isSelected();
         fecha.setDisable(seleccionado);

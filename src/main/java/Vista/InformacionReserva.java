@@ -9,6 +9,9 @@ import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
 
+/**
+ * Componente visual que muestra la informacion de una reserva
+ */
 public class InformacionReserva extends VBox {
     public InformacionReserva(Reserva reserva, StackPane panelInformacion){
         InformacionReservaController controller = new InformacionReservaController(reserva,panelInformacion);

@@ -7,6 +7,7 @@ module com.example.reservasdeespaciostfg {
 
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;
+    requires mysql.connector.j;
 
     opens com.example.reservasdeespaciostfg to javafx.fxml;
     exports com.example.reservasdeespaciostfg;

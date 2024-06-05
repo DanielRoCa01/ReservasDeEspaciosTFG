@@ -1,15 +1,18 @@
 package Modelo;
 
+/**
+ * Clase que modela una instalacion dentro de la aplicacion
+ */
 public class Instalacion implements Persistente {
 
-    private String nombre;
+
     public static String CAMPOS_SQL="`instalaciones`" +
             "("+
             "`nombre`," +
-            "`descripcion`)";
+            "`descripcion`)";//Campos de la clase para la insercion SQL
     private int idInstalacion;
-
     private String descripcion;
+    private String nombre;
 
     public Instalacion(int idInstalacion,String name ,String descripcion) {
         this.nombre = name;

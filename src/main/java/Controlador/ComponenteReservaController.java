@@ -43,6 +43,7 @@ public class ComponenteReservaController implements Initializable {
     private Reserva reserva;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Inicializa los campos con la informacion de la reserva
         fecha.setText(reserva.getFecha().toString());
         horas.setText(reserva.getHoraInicio().toString()+"-"+reserva.getHoraFinal().toString());
         estado.setText(reserva.getEstado());
@@ -58,7 +59,7 @@ public class ComponenteReservaController implements Initializable {
         this.panelInformacion=panelInformacion;
         this.panelFormulario=panelFormulario;
         this.usuario=usuario;
-
+        //Carga el componente visual desde el archivo fxml
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Vista/ComponenteReserva.fxml"));
         fxmlLoader.setController(this);
 
@@ -74,23 +75,36 @@ public class ComponenteReservaController implements Initializable {
         return contenedor;
     }
 
+
     @FXML
-    public void handleAbrirConsulta(ActionEvent event) {
+    /**
+     * Evento que abre la informacion del espacio
+     */
+    public void handleAbrirInformacionEspacio(ActionEvent event) {
         panelInformacion.getChildren().clear();
         panelInformacion.getChildren().add(new InformacionEspacio(reserva.getEspacio(),reserva.getFecha()));
     }
     @FXML
+    /**
+     * Evento que abre la informacion de la reserva
+     */
     public void handleAbrirInformacionReserva(ActionEvent event) {
         panelInformacion.getChildren().clear();
         panelInformacion.getChildren().add(new InformacionReserva(reserva,panelInformacion));
     }
 
     @FXML
+    /**
+     * Evento que abre  el formulario de modificacion de la reserva
+     */
     public void handleAbrirFormularioReserva(ActionEvent event) {
         panelFormulario.getChildren().clear();
         panelFormulario.getChildren().add( new FormularioReserva(reserva));
     }
     @FXML
+    /**
+     * Evento que aprocede a cancelar una reserva
+     */
     public void handleCancelarReserva(ActionEvent event) {
         AccesoSQL ac= new AccesoSQL();
         if(confirmarCancelacion()){

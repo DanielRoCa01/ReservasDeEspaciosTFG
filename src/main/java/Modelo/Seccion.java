@@ -1,19 +1,22 @@
 package Modelo;
 
+/**
+ * Clase que modela una seccion de usuarios dentro de una instalacion dentro de la aplicacion
+ */
 public class Seccion implements Persistente{
     private int idSeccion;
-    public static final String[] CAMPOS = {"idSeccion", "nombreSeccion", "descripcion", "idInstalacion"};
+    public static final String[] CAMPOS = {"idSeccion", "nombreSeccion", "descripcion", "idInstalacion"};//Campos de la clase para SQL
 
     public static String CAMPOS_SQL="`secciones`" +
             "(" +
             "`nombreSeccion`," +
             "`descripcion`," +
-            "`idInstalacion`)" ;
+            "`idInstalacion`)" ;//Campos de la clase para la insercion SQL
     private String nombre;
 
     private String descripcion;
 
-    private Instalacion instalacion;
+    private Instalacion instalacion;     //Instalacion a la que pertenece
 
     public Instalacion getInstalacion() {
         return instalacion;

@@ -3,24 +3,27 @@ package Modelo;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Clase que modela un usuario con un rol y seccion concreta dentro de una instalacion
+ */
 public class Usuario implements Persistente{
     private int idUsuario;
 
-    public final static ArrayList<String> ROLES = new ArrayList<>(Arrays.asList("ADMINISTRADOR", "USUARIO"));
-    public static final String[] CAMPOS = {"idUsuario", "nombreUsuario", "rol", "idSeccion", "idInstalacion"};
+    public final static ArrayList<String> ROLES = new ArrayList<>(Arrays.asList("ADMINISTRADOR", "USUARIO"));//Posibles roles para un usuario
+    public static final String[] CAMPOS = {"idUsuario", "nombreUsuario", "rol", "idSeccion", "idInstalacion"};//Campos de la clase para SQL
     public static String CAMPOS_SQL="`usuarios`" +
             "(" +
             "`nombreUsuario`," +
             "`rol`," +
             "`idSeccion`," +
-            "`idInstalacion`)" ;
+            "`idInstalacion`)" ;//Campos de la clase para la insercion SQL
     private String nombre;
 
     private String rol;
 
     private Seccion seccion;
 
-    private Instalacion instalacion;
+    private Instalacion instalacion; //Instalacion a la que pertenece
 
     public Instalacion getInstalacion() {
         return instalacion;

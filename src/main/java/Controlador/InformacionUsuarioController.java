@@ -31,7 +31,7 @@ public class InformacionUsuarioController implements Initializable {
 
     public InformacionUsuarioController(Usuario usuario){
         this.usuario =usuario;
-
+        //Cargar componente en el archivo FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Vista/InformacionUsuario.fxml"));
         fxmlLoader.setController(this);
         try {
@@ -43,6 +43,7 @@ public class InformacionUsuarioController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Se inicializan los compenentes visuales con los atributos del Usuario
         nombreInstalacion.setText(usuario.getInstalacion().getNombre());
         descripcionInstalacion.setText(usuario.getInstalacion().getDescripcion());
         nombreUsuario.setText(usuario.getNombre());

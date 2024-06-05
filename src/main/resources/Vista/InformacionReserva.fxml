@@ -88,7 +88,7 @@
                   <Separator prefWidth="200.0" GridPane.rowIndex="4" />
                   <HBox prefHeight="74.0" prefWidth="372.0" GridPane.rowIndex="9">
                      <children>
-                        <Button fx:id="espacio" onAction="#handleAbrirConsulta" mnemonicParsing="false" prefHeight="75.0" prefWidth="176.0" text="Button">
+                        <Button fx:id="espacio" onAction="#handleAbrirEspacio" mnemonicParsing="false" prefHeight="75.0" prefWidth="176.0" text="Button">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>

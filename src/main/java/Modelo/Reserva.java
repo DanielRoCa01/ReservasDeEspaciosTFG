@@ -7,17 +7,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Clase que modela una reserva sobre un espacio hecha por un usuario concreto dentro de la aplicacion
+ */
 public class Reserva implements Persistente {
 
     private int id;
-    public static String CAMPOS_SQL="`reservas` ( `idUsuario`, `idEspacio`, `horaInicio`, `horaFinal`, `fechaReserva`, `estado`, `descripcion`)";
-    public static String[] CAMPOS= {"idReserva","idUsuario", "idEspacio", "horaInicio", "horaFinal", "fechaReserva", "estado", "descripcion"};
+    public static String CAMPOS_SQL="`reservas` ( `idUsuario`, `idEspacio`, `horaInicio`, `horaFinal`, `fechaReserva`, `estado`, `descripcion`)";//Campos de la clase para la insercion SQL
+    public static String[] CAMPOS= {"idReserva","idUsuario", "idEspacio", "horaInicio", "horaFinal", "fechaReserva", "estado", "descripcion"};//Campos de la clase para SQL
 
-    public final static ArrayList<String> ESTADOS = new ArrayList<>(Arrays.asList("CANCELADA", "RESERVADA", "MODIFICADA", "REALIZADA","TODOS"));
+    public final static ArrayList<String> ESTADOS = new ArrayList<>(Arrays.asList("CANCELADA", "RESERVADA", "MODIFICADA", "REALIZADA","TODOS"));//Posibles estados que puede tener una reserva
 
-    private Espacio espacio;
+    private Espacio espacio;     //Espacio que se reserva
 
-    private Usuario usuario;
+    private Usuario usuario;     //Usuario que reserva
 
     private Time horaInicio;
 
@@ -137,6 +140,11 @@ public boolean isUpadatable(){
                 +Reserva.CAMPOS[7]+"= '"+descripcion+"'"
                 +" WHERE "+Reserva.CAMPOS[0]+"="+id;
     }
+
+    /**
+     * Funcion de apoyo que genera todas las horas dentro de un dia cada media hora
+     * @return List<Time>
+     */
     public static List<Time> generarHorasDelDia() {
         List<Time> horasDelDia = new ArrayList<>();
 
@@ -149,6 +157,11 @@ public boolean isUpadatable(){
         return horasDelDia;
     }
 
+    /**
+     * Funcion de apoyo que devuelve la posicion en el dia de la media hora dada
+     * @param hora media hora concreta
+     * @return int
+     */
     public static int horaAMediasHoras(Time hora) {
         // Convertimos la hora a minutos y luego dividimos por 30 minutos (una media hora)
         LocalTime localTime = hora.toLocalTime();

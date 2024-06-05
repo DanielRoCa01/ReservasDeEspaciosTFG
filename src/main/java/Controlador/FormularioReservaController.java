@@ -41,6 +41,23 @@ public class FormularioReservaController implements Initializable {
     private Usuario usuario;
 
     private AccesoSQL ac = AccesoSQL.obtenerInstancia();
+    //Constructor para crear una reserva
+    public FormularioReservaController(Usuario usuario, Espacio espacio, LocalDate fecha, Time hora1, Time hora2) {
+        this.espacio=espacio;
+        this.usuario=usuario;
+        this.fecha=fecha;
+        this.hora1=hora1;
+        this.hora2=hora2;
+        seModifica=false;
+        iniciarComponente();
+    }
+    //Constructor para modificar una reserva
+    public FormularioReservaController(Reserva reserva) {
+        this.reserva=reserva;
+        seModifica=true;
+        iniciarComponente();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -58,6 +75,7 @@ public class FormularioReservaController implements Initializable {
             botonEnviar.setOnAction(event -> modificar());
             botonEnviar.setText("Modificar");
         }
+        //Si no se modifica
         else {
             usuarioBox.setValue(usuario);
             espacioBox.setValue(espacio);
@@ -89,63 +107,69 @@ public class FormularioReservaController implements Initializable {
     }
 
     private void crear() {
+        //Si el espacio no esta disponible
         if(!ac.comprobarDisponibilidad(espacioBox.getValue().getIdEspacio(),fechaPicker.getValue(),horaInicial.getValue(),horaFinal.getValue())){
-            alertarEspacio();
+            alertar(Alert.AlertType.WARNING, "ERROR NO DISPONIBLE", "Cambie el espacio, la fecha o las horas de la reserva, por favor.");
+
             return;
         }
-        else if(espacioBox.getValue()==null||fechaPicker.getValue()==null
+        //Si quedan campos sin rellenar
+         if(espacioBox.getValue()==null||fechaPicker.getValue()==null
                ||horaFinal.getValue()==null||horaInicial.getValue()==null){
-            alertarVacio();
+             alertar(Alert.AlertType.WARNING, "ERROR CAMPOS SIN RELLENAR", "Por favor rellene todos los campos antes de continuar");
             return;
         }
-        else if(horaInicial.getValue().getTime()>=horaFinal.getValue().getTime()){
-            alertarHoras();
+         //Si las horas son invalidas
+        if(horaInicial.getValue().getTime()>=horaFinal.getValue().getTime()){
+
+            alertar(Alert.AlertType.WARNING, "ERROR HORAS INVALIDAS", "La hora de inicio debe ser menor a la hora final");
+
             return;
         }
-        ac.escribirReserva(new Reserva(0,espacioBox.getValue(),usuarioBox.getValue(),horaInicial.getValue(),horaFinal.getValue(),fechaPicker.getValue(),"RESERVADA",descripcion.getText()));
-        informarDeCreacion();
+        ac.escribir(new Reserva(0,espacioBox.getValue(),usuarioBox.getValue(),horaInicial.getValue(),horaFinal.getValue(),fechaPicker.getValue(),"RESERVADA",descripcion.getText()),Reserva.CAMPOS_SQL);
+        alertar(Alert.AlertType.INFORMATION, "CREACION CORRECTA", "La reserva se ha creado correctamente");
+
     }
 
-    private void informarDeCreacion() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("CREACION CORRECTA");
-        alert.setHeaderText("La reserva se ha creado correctamente");
-
+    private static void alertar(Alert.AlertType error, String s, String s1) {
+        Alert alert = new Alert(error);
+        alert.setTitle(s);
+        alert.setHeaderText(s1);
         alert.showAndWait();
     }
 
-    public void  modificar(){
 
+    public void  modificar(){
+        //Si la reserva no es modificable
         if (!reserva.isUpadatable()){
-            alertarFecha();
+            alertar(Alert.AlertType.WARNING, "ERROR DE FECHA", "Para modificar una reserva debe hacerla con mas de 1 semana de antelacion");
+
             return;
-        }
+        }//Si el espacio no esta disponible
         if(!ac.comprobarDisponibilidad(espacioBox.getValue().getIdEspacio(),fechaPicker.getValue(),horaInicial.getValue(),horaFinal.getValue(),reserva.getId())){
-            alertarEspacio();
+            alertar(Alert.AlertType.WARNING, "ERROR NO DISPONIBLE", "Cambie el espacio, la fecha o las horas de la reserva, por favor.");
+
             return;
         }
+        //Si quedan campos sin rellenar
          if(espacioBox.getValue()==null||fechaPicker.getValue()==null
                 ||horaFinal.getValue()==null||horaInicial.getValue()==null){
-            alertarVacio();
-            return;
+             alertar(Alert.AlertType.WARNING, "ERROR CAMPOS SIN RELLENAR", "Por favor rellene todos los campos antes de continuar");
+
+             return;
         }
+        //Si las horas son invalidas
          if(horaInicial.getValue().getTime()>=horaFinal.getValue().getTime()){
-            alertarHoras();
-            return;
+             alertar(Alert.AlertType.WARNING, "ERROR HORAS INVALIDAS", "La hora de inicio debe ser menor a la hora final");
+
+             return;
         }
+         //Si se confirma la reserva
         if (confirmarModificacion()) {
             reserva=new Reserva(reserva.getId(),espacioBox.getValue(),reserva.getUsuario(),horaInicial.getValue(),horaFinal.getValue(),fechaPicker.getValue(),"RESERVADA",descripcion.getText());
             ac.modificar(reserva);
 
         }
-    }
-
-    private void alertarFecha() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("ERROR DE FORMULARIO");
-        alert.setHeaderText("No es posible modificar la reserva");
-        alert.setContentText("Para modificar una reserva debe hacerla con mas de 1 semana de antelacion");
-        alert.showAndWait();
     }
 
     private boolean confirmarModificacion() {
@@ -164,44 +188,7 @@ public class FormularioReservaController implements Initializable {
         return result.isPresent() && result.get() == buttonTypeYes;
     }
 
-    private void alertarHoras() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("ERROR DE FORMULARIO");
-        alert.setHeaderText("Horas incorrectas");
-        alert.setContentText("La hora de inicio debe ser menor a la hora final");
-        alert.showAndWait();
-    }
 
-    private void alertarVacio() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("ERROR DE FORMULARIO");
-        alert.setHeaderText("Campos sin rellenar");
-        alert.setContentText("Por favor rellene todos los campos(descripcion opcional) antes de continuar");
-        alert.showAndWait();
-    }
-
-    private void alertarEspacio() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("ERROR DE FORMULARIO");
-        alert.setHeaderText("Espacio no disponible");
-        alert.setContentText("Cambie el espacio, la fecha o las horas de la reserva, por favor.");
-        alert.showAndWait();
-    }
-
-    public FormularioReservaController(Usuario usuario, Espacio espacio, LocalDate fecha, Time hora1, Time hora2) {
-    this.espacio=espacio;
-        this.usuario=usuario;
-        this.fecha=fecha;
-        this.hora1=hora1;
-        this.hora2=hora2;
-    seModifica=false;
-        iniciarComponente();
-    }
-    public FormularioReservaController(Reserva reserva) {
-        this.reserva=reserva;
-        seModifica=true;
-        iniciarComponente();
-    }
 
     private void iniciarComponente() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Vista/FormularioReserva.fxml"));

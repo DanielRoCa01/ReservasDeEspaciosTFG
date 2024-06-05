@@ -28,6 +28,19 @@ public class FormularioUsuarioController implements Initializable {
     public Button botonEnviar;
 
     private AccesoSQL ac = AccesoSQL.obtenerInstancia();
+    //Constructor para modificar un usuario
+    public FormularioUsuarioController(Usuario usuario) {
+        this.usuario=usuario;
+        seModifica=true;
+        iniciarComponente();
+    }
+    //Constructor para crea un usuario
+    public FormularioUsuarioController(Instalacion instalacion) {
+        this.instalacion=instalacion;
+        seModifica=false;
+        iniciarComponente();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -42,6 +55,7 @@ public class FormularioUsuarioController implements Initializable {
             botonEnviar.setText("Modificar");
 
         }
+        //Si es un formulario de creacion
         else {
             seccion.getItems().addAll(ac.leerSecciones(instalacion.getIdInstalacion()));
             botonEnviar.setOnAction(event -> crear());
@@ -50,51 +64,51 @@ public class FormularioUsuarioController implements Initializable {
     }
 
     private void crear()  {
+        //Si el nombre del usuario ya esta en uso
         if(ac.consultarUsuario(instalacion.getNombre(),nombre.getText())!=null){
 
-            alertarNombre();
+            alertar(Alert.AlertType.WARNING, "ERROR DE NOMBRE EXISTENTE", "Cambie el nombre del usuario y pruebe de nuevo");
             return;
-
-
         }
-        else if(nombre.getText().contentEquals("")||rol.getValue().contentEquals("")
+        //Si quedan campos sin rellenar
+        if(nombre.getText().contentEquals("")||rol.getValue().contentEquals("")
                 ||seccion.getValue()==null){
-            alertarVacio();
+            alertar(Alert.AlertType.WARNING, "ERROR CAMPOS SIN RELLENAR", "Por favor rellene todos los campos antes de continuar");
             return;
         }
         ac.escribirUsuario(new Usuario(0,nombre.getText(),rol.getValue(),seccion.getValue(),instalacion));
-        informarDeCreacion();
+
+        alertar(Alert.AlertType.INFORMATION, "CREACION CORRECTA", "El usuario"+nombre.getText()+" se ha creado correctamente");
     }
 
-    private void informarDeCreacion() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("CREACION CORRECTA");
-        alert.setHeaderText("El usuario"+nombre.getText()+" se ha creado correctamente");
-
-        alert.showAndWait();
-    }
 
     public void  modificar() {
+        //Si el nombre del usuario ya esta en uso
         if(ac.consultarUsuario(usuario.getInstalacion().getNombre(),nombre.getText())!=null&&!nombre.getText().contentEquals(usuario.getNombre())){
 
-                alertarNombre();
+            alertar(Alert.AlertType.WARNING, "ERROR DE NOMBRE EXISTENTE", "Cambie el nombre del usuario y pruebe de nuevo");
                 return;
-
-
         }
-        else if(nombre.getText().contentEquals("")||rol.getValue().contentEquals("")
+        //Si quedan campos sin rellenar
+         if(nombre.getText().contentEquals("")||rol.getValue().contentEquals("")
                 ||seccion.getValue()==null){
-            alertarVacio();
+
+            alertar(Alert.AlertType.WARNING, "ERROR CAMPOS SIN RELLENAR", "Por favor rellene todos los campos antes de continuar");
             return;
         }
-
+        //Si se confirma la modificacion
         if (confirmarModificacion()) {
             usuario=new Usuario(usuario.getIdUsuario(), nombre.getText(),rol.getValue(),seccion.getValue(),usuario.getInstalacion());
             ac.modificar(usuario);
 
         }
     }
-
+    private static void alertar(Alert.AlertType error, String s, String s1) {
+        Alert alert = new Alert(error);
+        alert.setTitle(s);
+        alert.setHeaderText(s1);
+        alert.showAndWait();
+    }
     private boolean confirmarModificacion() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("ADVERTENCIA DE MODIFICACION ");
@@ -111,40 +125,10 @@ public class FormularioUsuarioController implements Initializable {
         return result.isPresent() && result.get() == buttonTypeYes;
     }
 
-
-
-    private void alertarVacio() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("ERROR DE FORMULARIO");
-        alert.setHeaderText("Campos sin rellenar");
-        alert.setContentText("Por favor rellene todos los campos antes de continuar");
-        alert.showAndWait();
-    }
-
-    private void alertarNombre() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("ERROR DE FORMULARIO");
-        alert.setHeaderText("Nombre existente");
-        alert.setContentText("Cambie el nombre del usuario y pruebe de nuevo");
-        alert.showAndWait();
-    }
-
-    public FormularioUsuarioController(Usuario usuario) {
-    this.usuario=usuario;
-        seModifica=true;
-        iniciarComponente();
-    }
-    public FormularioUsuarioController(Instalacion instalacion) {
-        this.instalacion=instalacion;
-        seModifica=false;
-        iniciarComponente();
-    }
-
     private void iniciarComponente() {
+        //Carga el componente visual de un archivo fxml
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Vista/FormularioUsuario.fxml"));
         fxmlLoader.setController(this);
-
-
         try {
             fxmlLoader.load();
 
@@ -156,15 +140,5 @@ public class FormularioUsuarioController implements Initializable {
     public VBox getContenedor() {
         return contenedorFormularios;
     }
-    public static List<Time> generarHorasDelDia() {
-        List<Time> horasDelDia = new ArrayList<>();
 
-        for (int hora = 0; hora < 24; hora++) {
-            for (int minuto = 0; minuto < 60; minuto += 30) {
-                horasDelDia.add(Time.valueOf(String.format("%02d:%02d:00", hora, minuto)));
-            }
-        }
-
-        return horasDelDia;
-    }
 }

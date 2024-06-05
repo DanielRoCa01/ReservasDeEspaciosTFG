@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Clase controlador que aporta la funcionalidad a la ventana principal de la aplicacion
+ */
 public class DashBoardController implements Initializable {
     public StackPane contenedorInformacion;
     public StackPane contenedorFormularios;
@@ -57,11 +60,17 @@ private FXMLLoader loader;
 
     }
     @FXML
+    /**
+     * Evento que abre la consulta sobre los espacios
+     */
     public void handleAbrirConsulta(ActionEvent event) {
         contemedorConsulta.getChildren().clear();
         contemedorConsulta.getChildren().add(new ConsultaEspacios(usuario,contenedorInformacion,contenedorFormularios));
     }
     @FXML
+    /**
+     * Evento que abre la consulta sobre las reservas
+     */
     public void handleAbrirConsultaReservas(ActionEvent event) {
         contemedorConsulta.getChildren().clear();
         contemedorConsulta.getChildren().add(new ConsultaReservas(usuario,contenedorInformacion,contenedorFormularios));
@@ -69,6 +78,9 @@ private FXMLLoader loader;
     }
 
     @FXML
+    /**
+     * Evento que abre la consulta sobre la instalacion y la informacion del usuario
+     */
     public void handleAbrirConsultaInstalacion(ActionEvent event) {
         if(usuario.getRol().contentEquals("ADMINISTRADOR")) {
             contemedorConsulta.getChildren().clear();

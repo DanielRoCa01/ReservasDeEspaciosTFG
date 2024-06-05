@@ -32,6 +32,19 @@ public class FormularioEspacioController implements Initializable {
     private Usuario usuario;
 
     private AccesoSQL ac = AccesoSQL.obtenerInstancia();
+
+    //Constructor para modificar un espacio
+    public FormularioEspacioController(Espacio espacio) {
+        this.espacio=espacio;
+        seModifica=true;
+        iniciarComponente();
+    }
+    //Constructor para crear un espacio
+    public FormularioEspacioController(Usuario usuario) {
+        this.usuario=usuario;
+        seModifica=false;
+        iniciarComponente();
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         horaApertura.getItems().addAll(Reserva.generarHorasDelDia());
@@ -46,7 +59,7 @@ public class FormularioEspacioController implements Initializable {
             horaApertura.setValue(espacio.getHoraApertura());
             botonEnviar.setOnAction(event -> modificar());
             botonEnviar.setText("Modificar");
-        }
+        }//Si no se modifica
         else {
             botonEnviar.setOnAction(event -> crear());
             botonEnviar.setText("Crear");
@@ -54,22 +67,28 @@ public class FormularioEspacioController implements Initializable {
     }
 
     private void crear() {
-
+        //Si el nombre esta en uso
         if(ac.comprobarNombreEspacio(nombre.getText(),usuario.getInstalacion().getIdInstalacion())){
-            alertarEspacio();
+            alertar(Alert.AlertType.WARNING, "ERROR DE NOMBRE EXISTENTE", "Cambie el nombre de la seccion y pruebe de nuevo");
+
             return;
         }
+        //Si  quedan campos por rellenar
          if(nombre.getText().contentEquals("")||tamaño.getValue().contentEquals("") ||descripcion.getText().contentEquals("")
                ||horaApertura.getValue()==null||horaCierre.getValue()==null){
-            alertarVacio();
-            return;
+             alertar(Alert.AlertType.WARNING, "ERROR CAMPOS SIN RELLENAR", "Por favor rellene todos los campos antes de continuar");
+
+             return;
         }
+         //Si las horas son incorrectas
         if(horaApertura.getValue().getTime()>=horaCierre.getValue().getTime()){
-            alertarHoras();
+            alertar(Alert.AlertType.WARNING, "ERROR HORAS INCORRECTAS", "La hora de apertura debe ser menor a la hora de cierre");
+
             return;
         }
         ac.escribirEspacio(new Espacio(0,nombre.getText(),tamaño.getValue(),horaApertura.getValue(),horaCierre.getValue(),descripcion.getText(),usuario.getInstalacion()));
-        informarDeCreacion();
+        alertar(Alert.AlertType.INFORMATION, "CREACION CORRECTA", "El espacio "+nombre.getText()+" se ha creado correctamente");
+
     }
 
     private void informarDeCreacion() {
@@ -81,22 +100,29 @@ public class FormularioEspacioController implements Initializable {
     }
 
     public void  modificar(){
+        //Si el nombre esta en uso
 
         if(ac.comprobarNombreEspacio(nombre.getText(),espacio.getInstalacion().getIdInstalacion())  ){
             if(!nombre.getText().contentEquals(espacio.getNombre())){
-                alertarEspacio();
+                alertar(Alert.AlertType.WARNING, "ERROR DE NOMBRE EXISTENTE", "Cambie el nombre de la seccion y pruebe de nuevo");
+
                 return;
             }
 
         }
+        //Si  quedan campos por rellenar
+
         if(nombre.getText().contentEquals("")||tamaño.getValue().contentEquals("") ||descripcion.getText().contentEquals("")
                 ||horaApertura.getValue()==null||horaCierre.getValue()==null){
-            alertarVacio();
+            alertar(Alert.AlertType.WARNING, "ERROR CAMPOS SIN RELLENAR", "Por favor rellene todos los campos antes de continuar");
+
             return;
         }
+        //Si las horas son incorrectas
          if(horaApertura.getValue().getTime()>=horaCierre.getValue().getTime()){
-            alertarHoras();
-            return;
+             alertar(Alert.AlertType.WARNING, "ERROR HORAS INCORRECTAS", "La hora de apertura debe ser menor a la hora de cierre");
+
+             return;
         }
         if (confirmarModificacion()) {
             espacio=new Espacio(espacio.getIdEspacio(), nombre.getText(), tamaño.getValue(), horaApertura.getValue(), horaCierre.getValue(), descripcion.getText(), espacio.getInstalacion());
@@ -121,42 +147,17 @@ public class FormularioEspacioController implements Initializable {
         return result.isPresent() && result.get() == buttonTypeYes;
     }
 
-    private void alertarHoras() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("ERROR DE FORMULARIO");
-        alert.setHeaderText("Horas incorrectas");
-        alert.setContentText("La hora de apertura debe ser menor a la hora de cierre");
+    private static void alertar(Alert.AlertType error, String s, String s1) {
+        Alert alert = new Alert(error);
+        alert.setTitle(s);
+        alert.setHeaderText(s1);
         alert.showAndWait();
     }
 
-    private void alertarVacio() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("ERROR DE FORMULARIO");
-        alert.setHeaderText("Campos sin rellenar");
-        alert.setContentText("Por favor rellene todos los campos antes de continuar");
-        alert.showAndWait();
-    }
 
-    private void alertarEspacio() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("ERROR DE FORMULARIO");
-        alert.setHeaderText("Espacio existente");
-        alert.setContentText("Cambie el nombre del espacio y pruebe de nuevo");
-        alert.showAndWait();
-    }
-
-    public FormularioEspacioController(Espacio espacio) {
-    this.espacio=espacio;
-    seModifica=true;
-        iniciarComponente();
-    }
-    public FormularioEspacioController(Usuario usuario) {
-        this.usuario=usuario;
-        seModifica=false;
-        iniciarComponente();
-    }
 
     private void iniciarComponente() {
+        //Cargar componente visual del archivo fxml
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Vista/FormularioEspacio.fxml"));
         fxmlLoader.setController(this);
 
