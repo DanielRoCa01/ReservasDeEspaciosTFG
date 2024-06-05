@@ -33,7 +33,7 @@ CREATE TABLE `espacios` (
   PRIMARY KEY (`idEspacio`),
   KEY `fgk_espacio_instalacion` (`idInstalacion`),
   CONSTRAINT `fgk_espacio_instalacion` FOREIGN KEY (`idInstalacion`) REFERENCES `instalaciones` (`idInstalacion`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `espacios` (
 
 LOCK TABLES `espacios` WRITE;
 /*!40000 ALTER TABLE `espacios` DISABLE KEYS */;
-INSERT INTO `espacios` VALUES (1,'Prueba','XL','09:00:00','10:00:00','si',1),(2,'teatro','XL','08:00:00','20:00:00','descripciopn',2),(3,'Piscina','XL','10:30:00','18:00:00','Campo de futbol dle real madrid',2),(4,'Campo de Futbol','L','05:00:00','19:00:00','Fuuuuuuuuuuuuuuuuuuuuuuuuutboooooool',2),(5,'Sala de Juegos','M','16:00:00','21:00:00','Sala con futbolines y pin pones',2),(6,'Cancha','xl','01:15:00','01:00:10','aupa',2),(7,'Cancha','xl','01:15:00','01:00:10','aupa',2),(8,'laboratorio','xl','03:30:00','01:16:40','aupa',2),(9,'Sala de estar','M','08:00:00','22:30:00','Sala de descanso para profesorado y personal del centro educativo. Hay mesas y una minicoina equipada para todo lo necesario.',2),(10,'Despacho','S','09:00:00','15:00:00','Despacho de personal administrativo',2),(11,'Sala de Reuniones','S','10:00:00','19:00:00','Sala para reunirese',2);
+INSERT INTO `espacios` VALUES (12,'Escritorio 1','XS','07:00:00','21:00:00','Escritorio pegado a la pared derecha',8),(13,'Escritorio 2','XS','08:00:00','20:30:00','Escritorio pegado a la pared izquierda',8),(14,'Escritorio 3','S','07:00:00','22:00:00','Escritorio pegado a la pared del fondo',8),(15,'Despacho 1','S','08:00:00','19:00:00','Despacho pequeño para le gestion de tramites con privacidad',8),(16,'Despacho 2','M','08:00:00','19:00:00','Despacho mediano para la gestion de tramites con privacidad a un mayor numero de personas.',8),(17,'Sala de reuniones 1','S','09:00:00','19:00:00','Sala de reuniones pequeña ubicada en la primera planta',8),(18,'Sala de reuniones 2','M','10:00:00','19:00:00','Sala de reuniones mediana ubicada en la segunda planta',8),(19,'Sala de reuniones 3','L','10:00:00','18:00:00','Sala de reuniones grande ubicada en la tercera planta',8),(20,'Pistas deportivas','L','08:00:00','20:00:00','Se trata de unas pistas de futbol y baloncesto.',9),(21,'Sala de juegos','L','08:00:00','16:00:00','Sala con pin pon y futbolin',9),(22,'Dormitorio','S','12:00:00','20:00:00','Fondo derecha',10),(23,'Cocina','M','11:00:00','22:00:00','Fondo izquierda',10),(24,'Almacen','S','06:00:00','18:00:00','Almacen del fondo',11),(25,'Sala 1','M','09:00:00','21:30:00','A la derecha',11),(26,'Campo de futbol','M','06:30:00','18:30:00','Campo de futbol 7',12),(27,'Gimnasio','L','09:00:00','17:00:00','Gimnasio a cubierto',12),(28,'Aula 1','S','08:00:00','12:00:00','Aula pequeña',12),(29,'AUla Multiusos','L','15:30:00','18:30:00','JAJAJ Culo',5),(30,'Sala de Juegos','L','06:00:00','18:00:00','Sala de juegos',5),(31,'Sala de Reuniones','M','12:00:00','19:00:00','Es una sala para reunirse',12);
 /*!40000 ALTER TABLE `espacios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,7 +58,7 @@ CREATE TABLE `instalaciones` (
   `nombre` varchar(45) DEFAULT NULL,
   `descripcion` mediumtext,
   PRIMARY KEY (`idInstalacion`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `instalaciones` (
 
 LOCK TABLES `instalaciones` WRITE;
 /*!40000 ALTER TABLE `instalaciones` DISABLE KEYS */;
-INSERT INTO `instalaciones` VALUES (1,'instalacion',' si'),(2,'Casa','casaza'),(3,'',''),(4,'',''),(5,'Naves','Centro juvenil salesiano		');
+INSERT INTO `instalaciones` VALUES (5,'Naves','Centro juvenil salesiano		'),(8,'Oficinas','Oficinas de una aseguradora a todo riesgo'),(9,'LasNaves','Centro socieducativo con especializacion formando jovenes.'),(10,'Instalacion1','esto es una prueba'),(11,'VideoClub','Esto es un videoclub'),(12,'Colegio','Esto es un colegio'),(15,'PruebaExistente','PruebaExistente'),(16,'InstalacionPrueba','Prueba de creacion de instalacion'),(17,'Creacion prueba','Creacion prueba');
 /*!40000 ALTER TABLE `instalaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +92,7 @@ CREATE TABLE `reservas` (
   KEY `fgk_reservas_usuario_idx` (`idUsuario`),
   CONSTRAINT `fgk_reservas_espacio` FOREIGN KEY (`idEspacio`) REFERENCES `espacios` (`idEspacio`),
   CONSTRAINT `fgk_reservas_usuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +101,7 @@ CREATE TABLE `reservas` (
 
 LOCK TABLES `reservas` WRITE;
 /*!40000 ALTER TABLE `reservas` DISABLE KEYS */;
-INSERT INTO `reservas` VALUES (1,1,1,'12:00:00','18:00:00','2024-01-01','si','queso'),(2,4,2,'00:00:00','00:30:00','1970-01-12','CANCELADA','Modificacion'),(3,4,1,'09:20:00','09:53:20','2024-05-19','MODIFICADA','Modificacion'),(4,2,2,'01:00:10','01:00:12','1970-01-12','CANCELADA','siuu'),(5,2,2,'01:00:10','01:00:12','1970-01-12','CANCELADA','siuu'),(6,2,2,'01:00:10','01:00:12','1970-01-12','CANCELADA','siuu'),(7,2,2,'01:00:10','01:20:00','1970-01-12','CANCELADA','Yep'),(8,1,2,'01:00:10','01:20:00','1970-01-12','CANCELADA','Yep'),(9,5,2,'01:00:10','01:20:00','1970-01-12','CANCELADA','Yep'),(10,5,2,'01:00:10','01:20:00','1970-01-12','CANCELADA','Yep'),(11,5,2,'01:00:10','01:20:00','2001-09-09','CANCELADA','Yep'),(12,5,2,'01:00:10','01:20:00','2001-09-09','CANCELADA','Yep'),(13,5,2,'01:00:10','01:20:00','2001-09-09','CANCELADA','Yep'),(14,5,2,'01:00:10','01:20:00','2001-09-09','CANCELADA','Yep'),(15,1,2,'01:00:10','01:20:00','2001-09-09','CANCELADA','Yep'),(16,2,2,'01:00:10','01:20:00','2001-09-09','CANCELADA','Yep'),(17,3,2,'01:00:10','01:20:00','2001-09-09','CANCELADA','Yep'),(18,4,2,'01:00:10','01:20:00','2001-09-09','CANCELADA','Yep'),(19,1,4,'01:00:10','01:20:00','2128-06-11','CANCELADA','Yep'),(20,1,4,'01:00:10','01:20:00','2128-06-11','CANCELADA','Yep'),(21,1,4,'01:00:10','01:20:00','2128-06-11','CANCELADA','Yep'),(22,1,4,'01:00:10','01:20:00','2128-06-11','CANCELADA','Yep'),(23,1,4,'01:00:10','01:20:00','2128-06-11','CANCELADA','Yep'),(24,1,4,'01:00:10','01:20:00','2128-06-11','CANCELADA','siuu'),(25,3,2,'00:00:00','23:30:00','2024-05-19','','RESERVADA'),(26,4,2,'14:00:00','15:00:00','2024-05-19','','RESERVADA'),(27,4,2,'14:00:00','15:00:00','2024-05-19','','RESERVADA'),(28,4,2,'14:00:00','15:00:00','2024-05-19','','RESERVADA'),(29,4,2,'14:00:00','15:00:00','2024-05-19','','RESERVADA'),(30,2,4,'13:00:00','14:00:00','2024-05-19','','RESERVADA'),(31,2,4,'13:30:00','18:00:00','2024-05-20','','RESERVADA'),(32,2,4,'18:00:00','18:30:00','2024-05-20','CANCELADA','RESERVADA'),(33,2,4,'09:00:00','10:00:00','2024-05-20','RESERVADA',''),(34,2,4,'06:00:00','16:30:00','2024-06-05','','RESERVADA');
+INSERT INTO `reservas` VALUES (35,16,20,'10:00:00','14:00:00','2024-05-31','Torneo de futbol','RESERVADA'),(36,16,21,'10:00:00','14:00:00','2024-05-31','Torneo de pin pon','RESERVADA'),(37,17,23,'16:00:00','18:00:00','2024-05-31','','RESERVADA'),(38,18,24,'10:00:00','12:00:00','2024-05-31','','RESERVADA'),(39,20,26,'10:00:00','13:00:00','2024-05-31','CANCELADA','RESERVADA'),(40,20,27,'10:00:00','13:00:00','2024-05-31','CANCELADA','RESERVADA'),(41,20,27,'12:00:00','14:00:00','2024-05-30','CANCELADA','RESERVADA'),(42,21,28,'10:00:00','14:00:00','2024-06-07','CANCELADA','Curso de prevencion de riesgos laborales'),(43,20,27,'14:00:00','16:30:00','2024-06-08','CANCELADA',''),(44,20,27,'12:00:00','14:00:00','2024-06-07','RESERVADA',''),(45,22,26,'12:30:00','17:30:00','2024-05-30','RESERVADA',''),(46,20,26,'15:00:00','16:00:00','2024-06-28','RESERVADA','');
 /*!40000 ALTER TABLE `reservas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,7 +120,7 @@ CREATE TABLE `secciones` (
   PRIMARY KEY (`idSeccion`),
   KEY `fk_seccion_instalacion_idx` (`idInstalacion`),
   CONSTRAINT `fk_seccion_instalacion` FOREIGN KEY (`idInstalacion`) REFERENCES `instalaciones` (`idInstalacion`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,7 +129,7 @@ CREATE TABLE `secciones` (
 
 LOCK TABLES `secciones` WRITE;
 /*!40000 ALTER TABLE `secciones` DISABLE KEYS */;
-INSERT INTO `secciones` VALUES (1,'Chiqui','Seccion enfocadad en el desarrollo socioeducativo de niños',2),(29,'Preas','12-15 años',2),(30,'Centro','15.18 años. BAchillerato incluido.',2);
+INSERT INTO `secciones` VALUES (31,'GENERAL','Proposito general',8),(32,'Informaticos','Seccion de control de la red informatica de la oficina',8),(33,'GENERAL','Proposito general',9),(34,'GENERAL','Proposito general',10),(35,'Chupapingas','Son expertos mamaescrotos y fan de sanderson',10),(36,'GENERAL','Proposito general',11),(37,'Vendedores','Estos venden',11),(38,'GENERAL','Proposito general',12),(39,'Educadores','Expertos educando mucho',12),(40,'GENERAL','Proposito general',5),(41,'GENERAL','Proposito general',5),(42,'GENERAL','Proposito general',15),(43,'GENERAL','Proposito general',16),(44,'GENERAL','Proposito general',17),(45,'Secretaria','Son secretarios',12),(46,'E.Primaria','Profesionales de Educacion primaria',12);
 /*!40000 ALTER TABLE `secciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,7 +151,7 @@ CREATE TABLE `usuarios` (
   KEY `fgk_usuario_seccion_idx` (`idSeccion`),
   CONSTRAINT `fgk_usuario_instalacion` FOREIGN KEY (`idInstalacion`) REFERENCES `instalaciones` (`idInstalacion`),
   CONSTRAINT `fgk_usuario_seccion` FOREIGN KEY (`idSeccion`) REFERENCES `secciones` (`idSeccion`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +160,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Dani','Admin',1,1),(2,'Dani','ADMINISTRADOR',1,2),(3,'Juan','Usuario',1,2),(4,'Juan','Usuario',1,2),(5,'Juan','Usuario',1,2),(6,'Juan','Usuario',1,2),(7,'Juan','Usuario',1,2),(8,'','ADMINISTRADOR',1,3),(9,'','ADMINISTRADOR',1,3),(10,'Ruben','ADMINISTRADOR',1,5),(11,'Pablo','ADMINISTRADOR',29,2);
+INSERT INTO `usuarios` VALUES (14,'Nacho','ADMINISTRADOR',31,8),(15,'Luis','USUARIO',32,8),(16,'Raul','ADMINISTRADOR',33,9),(17,'Felipe','ADMINISTRADOR',34,10),(18,'Fernando','ADMINISTRADOR',37,11),(19,'Dani','USUARIO',37,11),(20,'Julio','ADMINISTRADOR',38,12),(21,'Fernando','USUARIO',38,12),(22,'Jose Antonio','USUARIO',39,12),(23,'juan','ADMINISTRADOR',40,5),(24,'assda','ADMINISTRADOR',40,5),(25,'Dani','ADMINISTRADOR',40,5),(26,'PruebaExistente','ADMINISTRADOR',42,15),(27,'Administrador','ADMINISTRADOR',43,16),(28,'Creacion prueba','ADMINISTRADOR',44,17),(29,'Paco','ADMINISTRADOR',46,12);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -189,6 +189,46 @@ BEGIN
     SELECT COUNT(idReserva)=0
     INTO count_spaces  FROM reservas R 
     WHERE R.idEspacio = idEspacio AND datediff(fechaReserva,fecha)  =0 AND R.estado !='CANCELADA'
+    AND ((R.horaInicio >=hora1 AND R.horaInicio <hora2)
+    or ( R.horaFinal >hora1 AND R.horaFinal <=hora2)
+    or ( R.horaInicio <= hora1 AND R.horaFinal >=hora2)) 
+    ;
+    
+    
+    
+   
+        RETURN count_spaces AND horaOpen ;
+    
+       
+  
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP FUNCTION IF EXISTS `comprobarDisponibilidadModif` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `comprobarDisponibilidadModif`(idEspacio int,  fecha DATE, hora1 TIME, hora2 TIME, idReserva int) RETURNS tinyint(1)
+    DETERMINISTIC
+BEGIN
+    DECLARE count_spaces boolean;
+    DECLARE horaOpen boolean;
+     DECLARE horaClose TIME;
+     SELECT !(horaApertura > hora1 or horaCierre < hora1
+    or  horaApertura > hora2 or horaCierre <hora2) into horaOpen from espacios where espacios.idEspacio =idEspacio;
+    
+    SELECT COUNT(idReserva)=0
+    INTO count_spaces  FROM reservas R 
+    WHERE R.idEspacio = idEspacio And R.idReserva!=idReserva AND datediff(fechaReserva,fecha)  =0 AND R.estado !='CANCELADA'
     AND ((R.horaInicio >=hora1 AND R.horaInicio <hora2)
     or ( R.horaFinal >hora1 AND R.horaFinal <=hora2)
     or ( R.horaInicio <= hora1 AND R.horaFinal >=hora2)) 
@@ -275,4 +315,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-21 10:46:41
+-- Dump completed on 2024-06-05 13:29:38

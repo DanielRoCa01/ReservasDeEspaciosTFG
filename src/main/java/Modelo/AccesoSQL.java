@@ -27,10 +27,10 @@ public class AccesoSQL {
 	 */
 	private  void conectar() {
 		  String usr="root";
-		  String password="admin";
-		  String urlCon="jdbc:mysql://localhost/tfg_reservas";
 //		  String password="admin";
-//		  String urlCon="jdbc:mysql://localhost/myAnimeList";
+//		  String urlCon="jdbc:mysql://localhost/tfg_reservas";
+		  String password="NuXldDWggfRmWnSEOOwvvxLmzdLpStuH";
+		  String urlCon="jdbc:mysql://root:NuXldDWggfRmWnSEOOwvvxLmzdLpStuH@roundhouse.proxy.rlwy.net:37830/tfg_reservas";
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con=DriverManager.getConnection(urlCon,usr,password);
