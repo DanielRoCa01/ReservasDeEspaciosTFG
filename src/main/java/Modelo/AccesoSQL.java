@@ -14,7 +14,7 @@ public class AccesoSQL {
 	private static AccesoSQL instancia;   //Instancia unica para conectar con la base de datos
 
 	/**
-	 * Devuelve la intsnacia unica de la clase siguiendo el diseño Singleton
+	 * Devuelve la instancia única de la clase siguiendo el diseño Singleton
 	 * @return instancia
 	 */
 	public static AccesoSQL obtenerInstancia() {
@@ -57,7 +57,7 @@ public class AccesoSQL {
 	}
 
 	/**
-	 * Cierra la conexion con la base de datos
+	 * Cierra la conexión con la base de datos
 	 */
 	private  void desconectar()
 	{
@@ -450,7 +450,7 @@ public class AccesoSQL {
 	}
 
 	/**
-	 * Manda escribir espacio en la base de datos
+	 * Manda escribir un espacio en la base de datos
 	 * @param espacio espacio a almacenar
 	 * @return boolean
 	 */
@@ -459,7 +459,7 @@ public class AccesoSQL {
 	}
 
 	/**
-	 * Manda escribir espacio en la base de datos
+	 * Manda escribir una instalación en la base de datos
 	 * @param instalacion espacio a almacenar
 	 * @return boolean
 	 */
@@ -468,7 +468,7 @@ public class AccesoSQL {
 	}
 
 	/**
-	 * Manda escribir espacio en la base de datos
+	 * Manda escribir una seccion en la base de datos
 	 * @param seccion espacio a almacenar
 	 * @return boolean
 	 */
@@ -477,7 +477,7 @@ public class AccesoSQL {
 	}
 
 	/**
-	 * Manda escribir espacio en la base de datos
+	 * Manda escribir un Usuario en la base de datos
 	 * @param usuario espacio a almacenar
 	 * @return boolean
 	 */
